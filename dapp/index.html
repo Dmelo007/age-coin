@@ -385,6 +385,10 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
           <div class="tok-box-label">Staking Rewards — Real, Deployed, Tested</div>
           <p style="font-size:13px;color:var(--t2);line-height:1.7">Rewards are funded entirely by the 0.2% fee above — never minted — and the payout rate halves automatically every 2 years. The contract can never pay out more than it has actually collected in fees, so it's mathematically incapable of running dry.</p>
         </div>
+        <div class="tok-box">
+          <div class="tok-box-label">Self-Healing Circuit Breaker — Real, Deployed, Tested</div>
+          <p style="font-size:13px;color:var(--t2);line-height:1.7">The contract watches its own transfer volume and automatically moves through three states — Green (normal), Yellow (caps transfer size, pauses new staking), and Red (pauses transfers and new staking entirely) — then recovers on its own once volume normalizes, with no human action required. Unstaking and claiming rewards are never affected, in any mode. No oracle, no external dependency — purely on-chain.</p>
+        </div>
       </div>
       <div>
         <div class="tok-box" style="margin-top:0">
@@ -392,8 +396,9 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
           <div class="tok-dist">
             <div class="tok-dist-row"><span class="tok-dist-name">2-of-2 multisig contract ownership</span><span class="tok-dist-val green">Live (testnet)</span></div>
             <div class="tok-dist-row"><span class="tok-dist-name">Self-funding staking rewards, 2yr halving</span><span class="tok-dist-val green">Live (testnet)</span></div>
+            <div class="tok-dist-row"><span class="tok-dist-name">Self-healing circuit breaker (Green/Yellow/Red)</span><span class="tok-dist-val green">Live (testnet)</span></div>
             <div class="tok-dist-row"><span class="tok-dist-name">Automated security scan (Slither)</span><span class="tok-dist-val green">Clean</span></div>
-            <div class="tok-dist-row"><span class="tok-dist-name">43-test automated test suite</span><span class="tok-dist-val green">Passing</span></div>
+            <div class="tok-dist-row"><span class="tok-dist-name">65-test automated test suite</span><span class="tok-dist-val green">Passing</span></div>
             <div class="tok-dist-row"><span class="tok-dist-name">Independent professional audit</span><span class="tok-dist-val">Planned, not yet done</span></div>
             <div class="tok-dist-row"><span class="tok-dist-name">Ethereum Mainnet deployment</span><span class="tok-dist-val">Not yet — testnet only</span></div>
           </div>
@@ -421,7 +426,8 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
           <li><strong>Automatic carbon offset + community fund fees</strong> — 0.5% / 1.0% on every transfer</li>
           <li><strong>Self-funding staking rewards</strong> — 0.2% fee, 2-year halving, pool-capped payouts</li>
           <li><strong>2-of-2 multisig ownership</strong> — no single key controls the contract anymore</li>
-          <li><strong>43-test automated suite + Slither security scan</strong>, both clean</li>
+          <li><strong>Self-healing circuit breaker</strong> — automatically restricts and automatically recovers from abnormal transfer volume, no human required</li>
+          <li><strong>65-test automated suite + Slither security scan</strong>, both clean</li>
         </ul>
       </div>
       <div class="rm-phase rm-phase-2">
@@ -501,13 +507,15 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
       <table class="wp-status-table">
         <tr><td>2-of-2 multisig contract ownership</td><td class="live">Live (testnet)</td></tr>
         <tr><td>Self-funding staking rewards, 2-year halving</td><td class="live">Live (testnet)</td></tr>
+        <tr><td>Self-healing circuit breaker (Green/Yellow/Red)</td><td class="live">Live (testnet)</td></tr>
         <tr><td>Automated security scan (Slither)</td><td class="live">Clean, no critical findings</td></tr>
-        <tr><td>Automated test suite</td><td class="live">43 tests passing</td></tr>
+        <tr><td>Automated test suite</td><td class="live">65 tests passing</td></tr>
         <tr><td>Independent professional audit</td><td class="planned">Planned, not yet complete</td></tr>
         <tr><td>Legal/securities review of A.G.E. CO. (LLC)</td><td class="planned">Planned, not yet complete</td></tr>
         <tr><td>Ethereum Mainnet deployment</td><td class="planned">Not yet — testnet only</td></tr>
       </table>
       <p>Contract ownership was moved from a single private key to a 2-of-2 multisig (Safe) — no single key can change contract configuration alone anymore. This was the top recommendation from our own internal security review and was implemented before any other planned upgrade.</p>
+      <p>The circuit breaker watches the contract's own transfer volume using a sliding time window and automatically moves between three states: Green (normal operation), Yellow (caps individual transfer size, pauses new staking), and Red (pauses transfers and new staking entirely). It recovers on its own once volume normalizes — no human action required, and no external oracle involved. Unstaking and claiming already-earned rewards are never affected, in any mode; that guarantee has no exceptions.</p>
     </div>
   </div>
 
@@ -522,7 +530,7 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
   <div class="wp-section">
     <h2 class="wp-h2">6. Roadmap</h2>
     <div class="wp-body">
-      <p><strong>Done:</strong> core contract deployed and verified on Sepolia; automatic carbon offset and community fund fees; self-funding staking rewards with halving; 2-of-2 multisig ownership; automated test suite and security scan.</p>
+      <p><strong>Done:</strong> core contract deployed and verified on Sepolia; automatic carbon offset and community fund fees; self-funding staking rewards with halving; 2-of-2 multisig ownership; a self-healing circuit breaker; automated test suite and security scan.</p>
       <p><strong>Next, before Mainnet:</strong> independent professional smart contract audit; legal/securities consultation for A.G.E. CO.; Ethereum Mainnet deployment once both are clear.</p>
       <p><strong>Future, only if real usage justifies it:</strong> an Element Identity system (an on-chain engagement score, not a separate token); governance and community proposal rights; broader access beyond a standard smartphone wallet.</p>
     </div>
@@ -652,7 +660,7 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
 // ============================================================
 // CONFIG — Sepolia testnet deployment
 // ============================================================
-const CONTRACT_ADDRESS = "0xfa3cf7D22CA5d08A1A5aee48381263e135b0663E";
+const CONTRACT_ADDRESS = "0x9AE145086b43Fd0d7D0Eef3e53284457EA177eCa";
 const SEPOLIA_CHAIN_ID_HEX = "0xaa36a7"; // 11155111
 const CONTRACT_ABI = [
   "function balanceOf(address account) view returns (uint256)",
