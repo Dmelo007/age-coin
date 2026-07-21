@@ -15,6 +15,10 @@ pragma solidity ^0.8.20;
 //    never minted, and can never exceed what the pool actually holds.
 //  - The reward rate halves every 2 years and requires no manual
 //    "start a new period" step — it is a pure function of time.
+//  - A self-healing circuit breaker (Green/Yellow/Red) watches
+//    transfer volume and automatically restricts, then automatically
+//    recovers, without needing a human to intervene. Unstaking and
+//    claiming rewards always work, in every mode, no exceptions.
 //
 //  Built on OpenZeppelin v5 audited libraries.
 // ============================================================
@@ -66,6 +70,33 @@ contract AGECoin is ERC20, Ownable, ReentrancyGuard {
     mapping(address => uint256) public userRewardPerTokenPaid;
     mapping(address => uint256) public rewards;
 
+    // ---------------- CIRCUIT BREAKER ----------------
+    // Watches total non-exempt transfer volume in a rolling window.
+    // No oracle, no external dependency — purely on-chain and
+    // automatic. Unstaking and claiming rewards are NEVER affected
+    // by this, in any mode.
+    enum Mode { Green, Yellow, Red }
+    Mode public currentMode;
+
+    // Volume is tracked in a true sliding window made of fixed-size
+    // buckets, not a single counter that resets all at once. A naive
+    // "reset everything at the hour mark" design has a real flaw: a
+    // reset landing right after a quiet moment can instantly erase a
+    // genuinely sustained anomaly, letting a real attack slip through
+    // on bad timing. Buckets age out gradually instead.
+    uint256 public constant BUCKET_SIZE = 10 minutes;
+    uint256 public constant NUM_BUCKETS = 6; // 6 * 10min = 1 hour rolling window
+    uint256 public constant YELLOW_VOLUME_THRESHOLD = (TOTAL_SUPPLY * 5) / 100;  // 5% of supply/hour
+    uint256 public constant YELLOW_TRANSFER_CAP = (TOTAL_SUPPLY * 1) / 100;      // 1% of supply per transfer while Yellow
+    uint256 public constant RED_ESCALATION_DELAY = 2 hours;  // sustained Yellow before escalating
+    uint256 public constant RED_COOLDOWN = 72 hours;         // auto-recovery time in Red
+    uint256 public constant YELLOW_MIN_DURATION = 30 minutes; // minimum observation time in Yellow before it can clear to Green
+
+    uint256[NUM_BUCKETS] public volumeBuckets;
+    uint256 public lastBucketTimestamp;
+    uint256 public yellowSince;
+    uint256 public redSince;
+
     // ---------------- EVENTS ----------------
     event ImpactFeesPaid(address indexed from, uint256 carbonAmount, uint256 treasuryAmount, uint256 stakingAmount);
     event Staked(address indexed account, uint256 amount);
@@ -73,6 +104,7 @@ contract AGECoin is ERC20, Ownable, ReentrancyGuard {
     event RewardClaimed(address indexed account, uint256 amount);
     event ImpactWalletsUpdated(address carbonOffsetWallet, address communityFund);
     event FeeExemptionSet(address indexed account, bool exempt);
+    event ModeChanged(Mode indexed from, Mode indexed to, string reason);
 
     constructor(address _carbonOffsetWallet, address _communityFund)
         ERC20("AGE Coin", "AGE")
@@ -91,6 +123,7 @@ contract AGECoin is ERC20, Ownable, ReentrancyGuard {
 
         deployTime = block.timestamp;
         lastUpdateTime = block.timestamp;
+        lastBucketTimestamp = block.timestamp;
         INITIAL_REWARD_RATE = uint256(200_000 * (10 ** 18)) / 365 days;
 
         _mint(msg.sender, TOTAL_SUPPLY);
@@ -113,6 +146,13 @@ contract AGECoin is ERC20, Ownable, ReentrancyGuard {
             return;
         }
 
+        _checkAutoRecovery();
+
+        require(currentMode != Mode.Red, "AGE: transfers paused, circuit breaker in Red mode");
+        if (currentMode == Mode.Yellow) {
+            require(value <= YELLOW_TRANSFER_CAP, "AGE: exceeds Yellow-mode transfer cap");
+        }
+
         uint256 carbonAmount = (value * CARBON_FEE) / FEE_DENOMINATOR;
         uint256 treasuryAmount = (value * TREASURY_FEE) / FEE_DENOMINATOR;
         uint256 stakingAmount = (value * STAKING_FEE) / FEE_DENOMINATOR;
@@ -124,8 +164,118 @@ contract AGECoin is ERC20, Ownable, ReentrancyGuard {
         super._update(from, to, sendAmount);
 
         stakingPool += stakingAmount;
+        _updateCircuitBreaker(value);
 
         emit ImpactFeesPaid(from, carbonAmount, treasuryAmount, stakingAmount);
+    }
+
+    // ---------------- CIRCUIT BREAKER LOGIC ----------------
+    // Checked BEFORE mode-based restrictions are enforced, so a
+    // due recovery is never blocked by the very mode it's supposed
+    // to lift. Can only ever make things less restrictive (Red ->
+    // Yellow), never more.
+    function _checkAutoRecovery() internal {
+        if (currentMode == Mode.Red) {
+            bool anomalyActive = totalWindowVolume() >= YELLOW_VOLUME_THRESHOLD;
+            if (!anomalyActive && block.timestamp >= redSince + RED_COOLDOWN) {
+                currentMode = Mode.Yellow;
+                yellowSince = block.timestamp;
+                redSince = 0;
+                emit ModeChanged(Mode.Red, Mode.Yellow, "cooldown elapsed, stepping down");
+            }
+        }
+    }
+
+    // Called after every fee-generating transfer that was actually
+    // allowed through. By this point currentMode is only ever Green
+    // or Yellow (Red already either blocked this transfer above, or
+    // was just lifted by _checkAutoRecovery). Purely a function of
+    // on-chain volume and elapsed time — no human input, no external
+    // oracle. Automatically escalates.
+    function _updateCircuitBreaker(uint256 value) internal {
+        _recordVolume(value);
+        bool anomalyActive = totalWindowVolume() >= YELLOW_VOLUME_THRESHOLD;
+
+        if (currentMode == Mode.Green) {
+            if (anomalyActive) {
+                currentMode = Mode.Yellow;
+                yellowSince = block.timestamp;
+                emit ModeChanged(Mode.Green, Mode.Yellow, "transfer volume anomaly detected");
+            }
+        } else if (currentMode == Mode.Yellow) {
+            if (anomalyActive && block.timestamp >= yellowSince + RED_ESCALATION_DELAY) {
+                currentMode = Mode.Red;
+                redSince = block.timestamp;
+                emit ModeChanged(Mode.Yellow, Mode.Red, "anomaly sustained past escalation delay");
+            } else if (!anomalyActive && block.timestamp >= yellowSince + YELLOW_MIN_DURATION) {
+                currentMode = Mode.Green;
+                yellowSince = 0;
+                emit ModeChanged(Mode.Yellow, Mode.Green, "transfer volume normalized");
+            }
+        }
+    }
+
+    /// Records `value` into the bucket for the current BUCKET_SIZE
+    /// slot, clearing any buckets that have aged out since the last
+    /// recorded transfer. Buckets expire one at a time as time moves
+    /// forward, rather than the whole window resetting to zero at
+    /// once — this is what makes a sustained anomaly impossible to
+    /// accidentally erase by unlucky timing.
+    function _recordVolume(uint256 value) internal {
+        uint256 currentBucket = block.timestamp / BUCKET_SIZE;
+        uint256 lastBucket = lastBucketTimestamp / BUCKET_SIZE;
+
+        if (currentBucket != lastBucket) {
+            uint256 bucketsElapsed = currentBucket - lastBucket;
+            uint256 bucketsToClear = bucketsElapsed > NUM_BUCKETS ? NUM_BUCKETS : bucketsElapsed;
+            for (uint256 i = 1; i <= bucketsToClear; i++) {
+                volumeBuckets[(lastBucket + i) % NUM_BUCKETS] = 0;
+            }
+        }
+
+        volumeBuckets[currentBucket % NUM_BUCKETS] += value;
+        lastBucketTimestamp = block.timestamp;
+    }
+
+    /// Sum of all buckets still within the trailing window. Buckets
+    /// older than NUM_BUCKETS slots are treated as expired (zero)
+    /// even if never explicitly cleared, since _recordVolume clears
+    /// on the next write — this view just needs to not double-count
+    /// stale data if read without a fresh write first.
+    function totalWindowVolume() public view returns (uint256 total) {
+        uint256 currentBucket = block.timestamp / BUCKET_SIZE;
+        uint256 lastBucket = lastBucketTimestamp / BUCKET_SIZE;
+        uint256 staleGap = currentBucket - lastBucket;
+
+        for (uint256 i = 0; i < NUM_BUCKETS; i++) {
+            // A bucket is stale (not yet cleared on-chain) if it's
+            // one of the ones that would be wiped on the next write.
+            if (staleGap >= NUM_BUCKETS) continue;
+            bool isStale = false;
+            for (uint256 j = 1; j <= staleGap; j++) {
+                if (i == (lastBucket + j) % NUM_BUCKETS) {
+                    isStale = true;
+                    break;
+                }
+            }
+            if (!isStale) total += volumeBuckets[i];
+        }
+    }
+
+    /// Lets the multisig manually clear a false-positive early. Full
+    /// reset to Green rather than per-function isolation, since this
+    /// contract has no separable subsystems to isolate individually.
+    function resolveEmergency() external onlyOwner {
+        require(currentMode != Mode.Green, "AGE: already in Green mode");
+        Mode previous = currentMode;
+        currentMode = Mode.Green;
+        yellowSince = 0;
+        redSince = 0;
+        for (uint256 i = 0; i < NUM_BUCKETS; i++) {
+            volumeBuckets[i] = 0;
+        }
+        lastBucketTimestamp = block.timestamp;
+        emit ModeChanged(previous, Mode.Green, "manually resolved by owner");
     }
 
     // ---------------- STAKING REWARD ACCOUNTING ----------------
@@ -187,6 +337,8 @@ contract AGECoin is ERC20, Ownable, ReentrancyGuard {
     // are claimed separately via claimReward().
     function stake(uint256 amount) external nonReentrant {
         require(amount > 0, "AGE: cannot stake zero");
+        _checkAutoRecovery();
+        require(currentMode == Mode.Green, "AGE: new staking paused by circuit breaker");
         _updateReward(msg.sender);
 
         _transfer(msg.sender, address(this), amount);

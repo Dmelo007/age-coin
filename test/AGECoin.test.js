@@ -394,6 +394,13 @@ describe("AGECoin", function () {
       // exempt, so route it through alice instead, who is not exempt.
       await token.transfer(mule.address, ethers.parseUnits("1000000", 18));
       await token.connect(mule).transfer(alice.address, ethers.parseUnits("500000", 18));
+      // That transfer is 5% of total supply and legitimately trips the
+      // circuit breaker into Yellow mode. Clear it so the rest of the
+      // test can proceed — mirrors the real owner/multisig resolving
+      // a false positive caused by a single large, legitimate transfer.
+      if ((await token.currentMode()) !== 0n) {
+        await token.resolveEmergency();
+      }
     }
 
     it("pays no rewards while nobody is staked, even as the pool fills", async function () {
