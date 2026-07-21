@@ -283,7 +283,6 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
     <div class="lnav-logo">AGE</div>
     <div class="lnav-links">
       <a onclick="landingScroll('philosophy')">Philosophy</a>
-      <a onclick="landingScroll('ecosystem')">Ecosystem</a>
       <a onclick="landingScroll('tokenomics')">Tokenomics</a>
       <a onclick="landingScroll('roadmap')">Roadmap</a>
     </div>
@@ -343,43 +342,6 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
         <div class="pillar-n">III</div>
         <div class="pillar-title">Provable Impact</div>
         <p class="pillar-body">0.5% of every transfer routes automatically to a carbon offset wallet, and 1.0% to a community fund — both addresses are public and verifiable on-chain, not a promise.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ECOSYSTEM -->
-  <section class="ecosystem-section" id="ecosystem">
-    <p class="eco-kicker">The Four Elements <span class="coming-soon-badge">Planned — Not Yet Live</span></p>
-    <h2 class="eco-title">One ecosystem.<br/><em>Four paths</em> to grow.</h2>
-    <p class="eco-sub">This is a real future direction for AGE, not something built into the contract yet. The plan: every wallet eventually picks one Element Identity — a score tracked inside the contract itself, not a separate token — reflecting how they engage with the ecosystem. It will only be built if real usage after launch justifies it.</p>
-    <div class="eco-grid">
-      <div class="eco-card eco-fire">
-        <div class="eco-icon">🔥</div>
-        <div class="eco-el">Fire</div>
-        <div class="eco-name">The Creator</div>
-        <p class="eco-desc">Content engagement — music, creativity.</p>
-        <ul class="eco-xp-list"><li>Not yet live<span>—</span></li></ul>
-      </div>
-      <div class="eco-card eco-air">
-        <div class="eco-icon">💨</div>
-        <div class="eco-el">Air</div>
-        <div class="eco-name">The Connector</div>
-        <p class="eco-desc">Referrals and social/community actions.</p>
-        <ul class="eco-xp-list"><li>Not yet live<span>—</span></li></ul>
-      </div>
-      <div class="eco-card eco-water">
-        <div class="eco-icon">💧</div>
-        <div class="eco-el">Water</div>
-        <div class="eco-name">The Builder</div>
-        <p class="eco-desc">Purchases, commerce, and events.</p>
-        <ul class="eco-xp-list"><li>Not yet live<span>—</span></li></ul>
-      </div>
-      <div class="eco-card eco-earth">
-        <div class="eco-icon">🌍</div>
-        <div class="eco-el">Earth</div>
-        <div class="eco-name">The Guardian</div>
-        <p class="eco-desc">Verified real-world impact actions.</p>
-        <ul class="eco-xp-list"><li>Not yet live<span>—</span></li></ul>
       </div>
     </div>
   </section>
@@ -495,7 +457,6 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
         <span class="sidebar-label">Navigate</span>
         <button class="sidebar-link active" onclick="showTab('dashboard',this)">Dashboard</button>
         <button class="sidebar-link" onclick="showTab('stake',this)">Stake</button>
-        <button class="sidebar-link" onclick="showTab('ecosystem',this)">Elements (Preview)</button>
       </div>
       <div class="sidebar-bottom">
         <button class="logout-btn" onclick="logout()">Disconnect</button>
@@ -577,16 +538,6 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
             </div>
             <button class="gold-btn" style="margin-top:16px" onclick="doClaim()">Claim Rewards</button>
           </div>
-        </div>
-      </div>
-
-      <!-- ECOSYSTEM / ELEMENTS PREVIEW TAB -->
-      <div class="tab-panel" id="tab-ecosystem">
-        <span class="section-kicker">Preview</span>
-        <div class="section-title">Element Identity</div>
-        <div class="coming-soon-panel">
-          <div class="csp-title">Not built yet — by design</div>
-          <p class="csp-body">This is a real, considered idea for a future version of AGE: an on-chain Element Identity (Fire, Air, Water, Earth) tracked as a score inside the contract itself, not a separate token. It has deliberately not been built into the live contract — it's planned to be added only if real usage after launch justifies it, not on a fixed calendar.</p>
         </div>
       </div>
 
