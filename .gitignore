@@ -142,5 +142,8 @@ cache/
 # Move build output
 sui-contracts/**/build/
 
+# crytic-compile / Slither / Echidna cache
+crytic-export/
+
 # macOS
 .DS_Store
