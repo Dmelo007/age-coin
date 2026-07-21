@@ -177,6 +177,27 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
 .footer-links a{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--t3);text-decoration:none;cursor:pointer;transition:color .15s}
 .footer-links a:hover{color:var(--gold)}
 
+/* ============ WHITEPAPER PAGE ============ */
+.whitepaper-page{display:none;max-width:760px;margin:0 auto;padding:64px 48px 120px}
+.wp-back{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);cursor:pointer;display:inline-block;margin-bottom:48px}
+.wp-back:hover{opacity:0.8}
+.wp-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,56px);font-weight:300;color:var(--gold);letter-spacing:0.02em;margin-bottom:8px}
+.wp-meta{font-size:11px;color:var(--t3);letter-spacing:0.06em;margin-bottom:56px}
+.wp-section{margin-bottom:48px}
+.wp-h2{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--t1);letter-spacing:0.02em;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--line2)}
+.wp-body{font-size:14px;color:var(--t2);line-height:1.9}
+.wp-body p{margin-bottom:16px}
+.wp-body strong{color:var(--t1);font-weight:500}
+.wp-body a{color:var(--gold)}
+.wp-body ul{padding-left:20px;margin-bottom:16px}
+.wp-body li{margin-bottom:8px}
+.wp-status-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:13px}
+.wp-status-table td{padding:12px 0;border-bottom:1px solid var(--line2);color:var(--t2)}
+.wp-status-table td:last-child{text-align:right;font-family:'Cormorant Garamond',serif;font-size:15px}
+.wp-status-table .live{color:var(--earth)}
+.wp-status-table .planned{color:var(--t3)}
+.wp-disclaimer{background:var(--black3);border-left:2px solid var(--gold);padding:24px 28px;font-size:13px;color:var(--t2);line-height:1.8}
+
 .app-nav{position:sticky;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:64px;border-bottom:1px solid var(--line2);background:rgba(8,8,8,0.97);backdrop-filter:blur(12px)}
 .app-logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;letter-spacing:0.12em;color:var(--gold)}
 .app-wallet{display:flex;align-items:center;gap:12px;font-size:12px;color:var(--t2)}
@@ -432,9 +453,89 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
     <div class="footer-logo">AGE</div>
     <div class="footer-tagline">Equal access to a better life, for every human on earth, starting today.</div>
     <div class="footer-links">
-      <a>Whitepaper</a><a onclick="landingScroll('roadmap')">Roadmap</a><a>GitHub</a>
+      <a onclick="showWhitepaper()">Whitepaper</a><a onclick="landingScroll('roadmap')">Roadmap</a><a>GitHub</a>
     </div>
   </footer>
+
+</div>
+
+<!-- ============================================================
+     WHITEPAPER PAGE
+============================================================ -->
+<div class="whitepaper-page" id="whitepaperPage">
+  <span class="wp-back" onclick="hideWhitepaper()">← Back to AGE Coin</span>
+  <h1 class="wp-title">AGE Coin — Whitepaper</h1>
+  <p class="wp-meta">Version 1.0 — Sepolia Testnet Deployment — Last updated 2026-07-21</p>
+
+  <div class="wp-section">
+    <h2 class="wp-h2">1. Mission</h2>
+    <div class="wp-body">
+      <p>AGE Coin is built on a simple idea: the gap between what people deserve and what the current financial system can reach is not a policy problem, it is an infrastructure problem. AGE is an attempt at that infrastructure — a fixed-supply ERC-20 token where a portion of every transfer automatically funds carbon offset efforts and a community fund, enforced by code rather than by promise.</p>
+      <p>This document describes what AGE Coin actually is today, not what it might become. Anything not explicitly marked "live" should be read as a future possibility, not a current feature.</p>
+    </div>
+  </div>
+
+  <div class="wp-section">
+    <h2 class="wp-h2">2. What AGE Coin Is</h2>
+    <div class="wp-body">
+      <p>AGE is a standard ERC-20 token deployed on Ethereum, built with OpenZeppelin's audited base contracts (ERC20, Ownable, ReentrancyGuard). It works with any Ethereum wallet that supports ERC-20 tokens, including MetaMask and Ledger.</p>
+      <ul>
+        <li><strong>Fixed supply:</strong> 10,000,000 AGE, minted once at deployment. The contract has no minting function — this number can never increase.</li>
+        <li><strong>Transfer fees:</strong> every non-exempt transfer automatically routes 0.5% to a carbon offset wallet, 1.0% to a community fund wallet, and 0.2% to a staking reward pool — 1.7% total.</li>
+        <li><strong>Staking:</strong> holders can lock AGE in the contract itself at any time and unlock it at any time, with no lock-up period.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="wp-section">
+    <h2 class="wp-h2">3. Staking Rewards</h2>
+    <div class="wp-body">
+      <p>Staking rewards are funded entirely by the 0.2% fee above — never minted. This is an important distinction: the contract mathematically cannot pay out more than it has actually collected in fees, so it cannot run dry the way a promised fixed-yield system could.</p>
+      <p>The reward rate halves automatically every 2 years, calculated purely from elapsed time since deployment — no manual "start a new period" action is ever required from anyone, including the contract owner.</p>
+    </div>
+  </div>
+
+  <div class="wp-section">
+    <h2 class="wp-h2">4. Security &amp; Ownership — Current Status</h2>
+    <div class="wp-body">
+      <table class="wp-status-table">
+        <tr><td>2-of-2 multisig contract ownership</td><td class="live">Live (testnet)</td></tr>
+        <tr><td>Self-funding staking rewards, 2-year halving</td><td class="live">Live (testnet)</td></tr>
+        <tr><td>Automated security scan (Slither)</td><td class="live">Clean, no critical findings</td></tr>
+        <tr><td>Automated test suite</td><td class="live">43 tests passing</td></tr>
+        <tr><td>Independent professional audit</td><td class="planned">Planned, not yet complete</td></tr>
+        <tr><td>Legal/securities review of A.G.E. CO. (LLC)</td><td class="planned">Planned, not yet complete</td></tr>
+        <tr><td>Ethereum Mainnet deployment</td><td class="planned">Not yet — testnet only</td></tr>
+      </table>
+      <p>Contract ownership was moved from a single private key to a 2-of-2 multisig (Safe) — no single key can change contract configuration alone anymore. This was the top recommendation from our own internal security review and was implemented before any other planned upgrade.</p>
+    </div>
+  </div>
+
+  <div class="wp-section">
+    <h2 class="wp-h2">5. Current Deployment</h2>
+    <div class="wp-body">
+      <p>AGE Coin is currently deployed only on the <strong>Sepolia testnet</strong>, not Ethereum Mainnet. Tokens held on this deployment have no real-world monetary value. This is a testing and development environment.</p>
+      <p>Contract source code is verified and publicly readable on Etherscan. The GitHub repository contains the full contract source, test suite, and deployment scripts.</p>
+    </div>
+  </div>
+
+  <div class="wp-section">
+    <h2 class="wp-h2">6. Roadmap</h2>
+    <div class="wp-body">
+      <p><strong>Done:</strong> core contract deployed and verified on Sepolia; automatic carbon offset and community fund fees; self-funding staking rewards with halving; 2-of-2 multisig ownership; automated test suite and security scan.</p>
+      <p><strong>Next, before Mainnet:</strong> independent professional smart contract audit; legal/securities consultation for A.G.E. CO.; Ethereum Mainnet deployment once both are clear.</p>
+      <p><strong>Future, only if real usage justifies it:</strong> an Element Identity system (an on-chain engagement score, not a separate token); governance and community proposal rights; broader access beyond a standard smartphone wallet.</p>
+    </div>
+  </div>
+
+  <div class="wp-section">
+    <h2 class="wp-h2">7. Risks &amp; Disclaimers</h2>
+    <div class="wp-disclaimer">
+      <p style="margin-bottom:12px">This document is for informational purposes only and is not financial, legal, or investment advice. AGE Coin is currently a testnet project with no real-world monetary value.</p>
+      <p style="margin-bottom:12px">The smart contract has not yet undergone an independent professional security audit. While it has passed automated scanning and a 43-test automated suite, this does not guarantee the absence of vulnerabilities.</p>
+      <p style="margin-bottom:0">A.G.E. CO. has not yet completed a legal or securities review of this token. Nothing in this document or the AGE Coin application should be interpreted as an offer to sell or a solicitation of an offer to buy any security.</p>
+    </div>
+  </div>
 
 </div>
 
@@ -573,6 +674,17 @@ let provider, signer, contract, userAddress;
 function landingScroll(section){
   const el = document.getElementById(section);
   if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function showWhitepaper(){
+  document.getElementById('landingPage').style.display = 'none';
+  document.getElementById('whitepaperPage').style.display = 'block';
+  window.scrollTo(0, 0);
+}
+
+function hideWhitepaper(){
+  document.getElementById('whitepaperPage').style.display = 'none';
+  document.getElementById('landingPage').style.display = 'block';
 }
 
 // ============================================================
