@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
+<title>AGE — A Coin Built by Nobody, Built for Everybody</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --black:#080808;
+  --black2:#0e0e0e;
+  --black3:#141414;
+  --gold:#c9a96e;
+  --gold2:#a07840;
+  --gold3:rgba(201,169,110,0.12);
+  --gold4:rgba(201,169,110,0.06);
+  --gold5:rgba(201,169,110,0.25);
+  --blue:#00b4d8;
+  --fire:#e8631a;
+  --air:#93c5fd;
+  --water:#22d3ee;
+  --earth:#4ade80;
+  --t1:#f5f0e8;
+  --t2:#8a7a60;
+  --t3:#3a3228;
+  --line:rgba(201,169,110,0.15);
+  --line2:rgba(201,169,110,0.08);
+}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-serif;font-size:14px;line-height:1.6;overflow-x:hidden}
+
+.landing{display:block}
+.dashboard-app{display:none}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+.testnet-banner{background:#3a2a0e;color:var(--gold);text-align:center;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:8px;border-bottom:1px solid var(--line)}
+
+.lnav{position:sticky;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 48px;height:72px;border-bottom:1px solid var(--line2);background:rgba(8,8,8,0.95);backdrop-filter:blur(12px)}
+.lnav-logo{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;letter-spacing:0.12em;color:var(--gold)}
+.lnav-links{display:flex;gap:48px}
+.lnav-links a{font-size:11px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--t2);text-decoration:none;cursor:pointer;transition:color .2s}
+.lnav-links a:hover{color:var(--gold)}
+.lnav-connect{font-size:11px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:var(--black);background:var(--gold);border:none;padding:12px 28px;cursor:pointer;transition:background .2s;font-family:'Space Grotesk',sans-serif}
+.lnav-connect:hover{background:var(--gold2)}
+.lnav-connect:disabled{opacity:0.5;cursor:not-allowed}
+
+.hero{min-height:calc(100vh - 106px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px 48px 0;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 40%,rgba(201,169,110,0.04) 0%,transparent 70%);pointer-events:none}
+.hero-kicker{font-size:10px;font-weight:500;letter-spacing:0.35em;text-transform:uppercase;color:var(--t2);margin-bottom:32px}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(72px,12vw,160px);font-weight:300;letter-spacing:0.08em;color:var(--gold);line-height:0.9;margin-bottom:32px}
+.hero-sub{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;font-style:italic;color:var(--t2);margin-bottom:72px;letter-spacing:0.04em}
+.coin-wrapper{position:relative;width:240px;height:240px;margin:0 auto 56px}
+.coin-orbit{position:absolute;inset:0;border-radius:50%;border:1px solid}
+.co1{border-color:rgba(201,169,110,0.2);animation:spin 20s linear infinite}
+.co2{inset:-24px;border-color:rgba(201,169,110,0.1);animation:spin 32s linear infinite reverse}
+.co3{inset:-48px;border-color:rgba(201,169,110,0.05);animation:spin 48s linear infinite}
+.co1::before{content:'';position:absolute;width:5px;height:5px;border-radius:50%;background:var(--gold);opacity:0.6;top:50%;left:-2.5px;transform:translateY(-50%)}
+.co2::after{content:'';position:absolute;width:4px;height:4px;border-radius:50%;background:var(--gold);opacity:0.3;bottom:-2px;left:50%;transform:translateX(-50%)}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.coin{position:absolute;inset:24px;border-radius:50%;background:radial-gradient(circle at 38% 32%,#f0d080 0%,#c9a96e 30%,#8a6530 60%,#4a3010 100%);box-shadow:0 0 60px rgba(201,169,110,0.3),0 0 120px rgba(201,169,110,0.1),inset 0 2px 12px rgba(255,255,255,0.15),inset 0 -4px 8px rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;animation:coinbreathe 5s ease-in-out infinite}
+@keyframes coinbreathe{0%,100%{box-shadow:0 0 60px rgba(201,169,110,0.3),0 0 120px rgba(201,169,110,0.1),inset 0 2px 12px rgba(255,255,255,0.15),inset 0 -4px 8px rgba(0,0,0,0.4)}50%{box-shadow:0 0 100px rgba(201,169,110,0.45),0 0 200px rgba(201,169,110,0.18),inset 0 2px 12px rgba(255,255,255,0.15),inset 0 -4px 8px rgba(0,0,0,0.4)}}
+.coin-inner{text-align:center}
+.coin-text{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;letter-spacing:0.1em;color:rgba(30,18,6,0.9);line-height:1}
+.coin-sub{font-size:8px;letter-spacing:0.2em;color:rgba(30,18,6,0.5);margin-top:2px}
+.vert-text{position:absolute;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--t3);writing-mode:vertical-rl}
+.vert-left{left:24px;top:50%;transform:translateY(-50%) rotate(180deg)}
+.vert-right{right:24px;top:50%;transform:translateY(-50%)}
+.scroll-cue{display:flex;flex-direction:column;align-items:center;gap:12px;padding-bottom:48px}
+.scroll-cue span{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--t3)}
+.scroll-line{width:1px;height:48px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollpulse 2s ease-in-out infinite}
+@keyframes scrollpulse{0%,100%{opacity:0.3}50%{opacity:0.8}}
+
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stat-item{padding:32px 48px;border-right:1px solid var(--line2);text-align:center}
+.stat-item:last-child{border-right:none}
+.stat-n{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;color:var(--gold);display:block;line-height:1;margin-bottom:8px}
+.stat-l{font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--t3)}
+
+.philosophy{padding:120px 48px;display:grid;grid-template-columns:1fr 1fr;gap:96px;align-items:center;border-bottom:1px solid var(--line2)}
+.phil-kicker{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--t2);margin-bottom:24px}
+.phil-title{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,5vw,64px);font-weight:300;line-height:1.05;letter-spacing:0.02em;color:var(--t1);margin-bottom:32px}
+.phil-title em{color:var(--gold);font-style:italic}
+.phil-body{font-size:15px;color:var(--t2);line-height:1.9;margin-bottom:40px;max-width:440px}
+.phil-cta{font-size:11px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--black);background:var(--gold);border:none;padding:14px 32px;cursor:pointer;transition:background .2s;font-family:'Space Grotesk',sans-serif}
+.phil-cta:hover{background:var(--gold2)}
+.pillar{padding:32px;border:1px solid var(--line2);margin-bottom:1px;position:relative;overflow:hidden;transition:background .2s}
+.pillar:hover{background:var(--gold4)}
+.pillar::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--gold);opacity:0;transition:opacity .2s}
+.pillar:hover::before{opacity:1}
+.pillar-n{font-family:'Cormorant Garamond',serif;font-size:11px;font-weight:300;letter-spacing:0.2em;color:var(--t3);margin-bottom:8px}
+.pillar-title{font-size:11px;font-weight:500;letter-spacing:0.08em;color:var(--gold);margin-bottom:8px;text-transform:uppercase}
+.pillar-body{font-size:13px;color:var(--t2);line-height:1.65}
+
+.ecosystem-section{padding:120px 48px;border-bottom:1px solid var(--line2)}
+.eco-kicker{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--t2);margin-bottom:24px;display:flex;align-items:center;gap:12px}
+.coming-soon-badge{font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--t3);border:1px solid var(--line);padding:3px 10px;border-radius:2px}
+.eco-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,60px);font-weight:300;line-height:1.05;color:var(--t1);margin-bottom:16px;letter-spacing:0.02em}
+.eco-title em{color:var(--gold);font-style:italic}
+.eco-sub{font-size:15px;color:var(--t2);max-width:560px;line-height:1.9;margin-bottom:64px}
+.eco-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line2);opacity:0.55}
+.eco-card{background:var(--black);padding:40px 32px;position:relative;overflow:hidden;transition:background .2s}
+.eco-card:hover{background:var(--black2)}
+.eco-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;opacity:0;transition:opacity .2s}
+.eco-fire::after{background:var(--fire)}
+.eco-air::after{background:var(--air)}
+.eco-water::after{background:var(--water)}
+.eco-earth::after{background:var(--earth)}
+.eco-card:hover::after{opacity:1}
+.eco-icon{font-size:28px;margin-bottom:24px}
+.eco-el{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:8px}
+.eco-fire .eco-el{color:var(--fire)}
+.eco-air .eco-el{color:var(--air)}
+.eco-water .eco-el{color:var(--water)}
+.eco-earth .eco-el{color:var(--earth)}
+.eco-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--t1);margin-bottom:12px;letter-spacing:0.04em}
+.eco-desc{font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:20px}
+.eco-xp-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.eco-xp-list li{font-size:11px;color:var(--t3);display:flex;justify-content:space-between;border-bottom:1px solid var(--line2);padding-bottom:8px}
+.eco-xp-list li span{font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:300;color:var(--gold)}
+
+.tokenomics-section{padding:120px 48px;border-bottom:1px solid var(--line2)}
+.tok-layout{display:grid;grid-template-columns:1fr 1fr;gap:96px;align-items:start}
+.tok-kicker{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--t2);margin-bottom:24px}
+.tok-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,56px);font-weight:300;color:var(--t1);margin-bottom:24px;letter-spacing:0.02em;line-height:1.05}
+.tok-body{font-size:15px;color:var(--t2);line-height:1.9;margin-bottom:40px;max-width:480px}
+.tok-supply-big{font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:300;color:var(--gold);line-height:1;margin-bottom:4px}
+.tok-supply-label{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--t3);margin-bottom:40px;display:block}
+.tok-fees{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line2);margin-bottom:40px}
+.tok-fee{background:var(--black2);padding:24px}
+.tok-fee-n{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--gold);margin-bottom:4px}
+.tok-fee-l{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--t3);line-height:1.5}
+.tok-box{border:1px solid var(--line2);padding:32px;margin-top:1px}
+.tok-box-label{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--t3);margin-bottom:16px}
+.tok-dist{display:flex;flex-direction:column;gap:1px}
+.tok-dist-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line2)}
+.tok-dist-name{font-size:12px;color:var(--t2)}
+.tok-dist-val{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:300;color:var(--gold)}
+.tok-dist-val.green{color:var(--earth)}
+
+.roadmap-section{padding:120px 48px;border-bottom:1px solid var(--line2)}
+.rm-kicker{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--t2);margin-bottom:24px}
+.rm-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,60px);font-weight:300;color:var(--t1);margin-bottom:64px;letter-spacing:0.02em}
+.rm-timeline{position:relative;padding-left:32px}
+.rm-timeline::before{content:'';position:absolute;left:0;top:8px;bottom:0;width:1px;background:linear-gradient(to bottom,var(--gold),rgba(201,169,110,0.1))}
+.rm-phase{position:relative;margin-bottom:64px}
+.rm-phase:last-child{margin-bottom:0}
+.rm-dot{position:absolute;left:-37px;top:6px;width:10px;height:10px;border-radius:50%;border:1px solid var(--gold);background:var(--black)}
+.rm-phase-1 .rm-dot{box-shadow:0 0 8px var(--gold)}
+.rm-phase-2 .rm-dot{border-color:var(--blue)}
+.rm-phase-3 .rm-dot{border-color:var(--earth)}
+.rm-meta{display:flex;align-items:center;gap:16px;margin-bottom:12px}
+.rm-tag{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;padding:4px 12px;border:1px solid}
+.rm-phase-1 .rm-tag{color:var(--gold);border-color:rgba(201,169,110,0.3)}
+.rm-phase-2 .rm-tag{color:var(--blue);border-color:rgba(0,180,216,0.3)}
+.rm-phase-3 .rm-tag{color:var(--earth);border-color:rgba(74,222,128,0.3)}
+.rm-timing{font-size:11px;color:var(--t3);letter-spacing:0.06em}
+.rm-phase-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;margin-bottom:8px;letter-spacing:0.02em}
+.rm-phase-1 .rm-phase-title{color:var(--gold)}
+.rm-phase-2 .rm-phase-title{color:var(--blue)}
+.rm-phase-3 .rm-phase-title{color:var(--earth)}
+.rm-phase-sub{font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:var(--t3);margin-bottom:20px}
+.rm-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.rm-list li{font-size:13px;color:var(--t2);display:flex;align-items:flex-start;gap:10px;line-height:1.5}
+.rm-list li::before{content:'';width:4px;height:4px;border-radius:50%;flex-shrink:0;margin-top:7px}
+.rm-phase-1 .rm-list li::before{background:var(--gold)}
+.rm-phase-2 .rm-list li::before{background:var(--blue)}
+.rm-phase-3 .rm-list li::before{background:var(--earth)}
+.rm-list li strong{color:var(--t1);font-weight:500}
+
+.landing-footer{padding:40px 48px;border-top:1px solid var(--line2);display:flex;align-items:center;justify-content:space-between}
+.footer-logo{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;letter-spacing:0.12em;color:var(--gold)}
+.footer-tagline{font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:var(--t3)}
+.footer-links{display:flex;gap:32px}
+.footer-links a{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--t3);text-decoration:none;cursor:pointer;transition:color .15s}
+.footer-links a:hover{color:var(--gold)}
+
+.app-nav{position:sticky;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:64px;border-bottom:1px solid var(--line2);background:rgba(8,8,8,0.97);backdrop-filter:blur(12px)}
+.app-logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;letter-spacing:0.12em;color:var(--gold)}
+.app-wallet{display:flex;align-items:center;gap:12px;font-size:12px;color:var(--t2)}
+.wallet-dot{width:6px;height:6px;border-radius:50%;background:var(--earth);box-shadow:0 0 6px var(--earth);animation:dotpulse 2s ease-in-out infinite}
+@keyframes dotpulse{0%,100%{opacity:1}50%{opacity:0.4}}
+.wallet-addr{font-weight:500;letter-spacing:0.04em;color:var(--t1)}
+
+.app-layout{display:flex;min-height:100vh}
+.sidebar{width:200px;flex-shrink:0;border-right:1px solid var(--line2);padding:40px 0;position:sticky;top:99px;align-self:flex-start;height:calc(100vh - 99px);overflow-y:auto;background:var(--black)}
+.sidebar-section{margin-bottom:40px;padding:0 24px}
+.sidebar-label{font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--t3);margin-bottom:16px;display:block}
+.sidebar-link{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--t3);text-decoration:none;padding:10px 0;cursor:pointer;transition:color .15s;border:none;background:none;width:100%;text-align:left}
+.sidebar-link:hover{color:var(--t2)}
+.sidebar-link.active{color:var(--gold)}
+.sidebar-link.active::before{content:'•';font-size:16px;line-height:1;margin-right:2px}
+.sidebar-bottom{position:absolute;bottom:32px;left:24px;right:24px;border-top:1px solid var(--line2);padding-top:24px}
+.logout-btn{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--t3);background:none;border:none;cursor:pointer;transition:color .15s;padding:0;font-family:'Space Grotesk',sans-serif}
+.logout-btn:hover{color:var(--fire)}
+
+.main{flex:1;margin-left:200px;padding:48px;min-height:calc(100vh - 96px)}
+
+.section-kicker{font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--t3);margin-bottom:12px;display:block}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,3vw,42px);font-weight:300;color:var(--t1);margin-bottom:32px;letter-spacing:0.02em}
+.grid-line{display:grid;gap:1px;background:var(--line2);margin-bottom:1px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:1fr 1fr 1fr}
+.cell{background:var(--black);padding:36px}
+.cell:hover{background:var(--black2)}
+.cell-label{font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--t3);margin-bottom:16px;display:block}
+.cell-big{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:var(--gold);line-height:1;margin-bottom:6px}
+.cell-sub{font-size:11px;color:var(--t3);letter-spacing:0.04em}
+.gold-btn{display:block;width:100%;background:var(--gold);color:var(--black);border:none;padding:14px;font-size:10px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;margin-top:16px;transition:background .15s;font-family:'Space Grotesk',sans-serif;text-align:center}
+.gold-btn:hover{background:var(--gold2)}
+.gold-btn:disabled{opacity:0.4;cursor:not-allowed}
+.ghost-btn{display:block;width:100%;background:none;color:var(--gold);border:1px solid var(--line);padding:12px;font-size:10px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;margin-top:8px;transition:all .15s;font-family:'Space Grotesk',sans-serif;text-align:center}
+.ghost-btn:hover{border-color:var(--gold);background:var(--gold4)}
+.ghost-btn:disabled{opacity:0.4;cursor:not-allowed}
+.age-input{width:100%;background:transparent;border:none;border-bottom:1px solid var(--line);color:var(--t1);padding:12px 0;font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;outline:none;transition:border-color .15s;letter-spacing:0.04em}
+.age-input:focus{border-bottom-color:var(--gold)}
+.age-input::placeholder{color:var(--t3)}
+.input-hint{font-size:10px;color:var(--t3);margin-top:6px;letter-spacing:0.04em}
+
+.overview{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-bottom:1px;background:var(--line2)}
+.ov-card{background:var(--black);padding:36px}
+.ov-card:hover{background:var(--black2)}
+
+.stake-card{background:var(--black);padding:36px}
+.stake-big{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:300;color:var(--gold);line-height:1;margin-top:16px;margin-bottom:4px}
+.stake-big-label{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--t3);display:block;margin-bottom:24px}
+.stake-row-info{display:flex;justify-content:space-between;align-items:baseline;padding:14px 0;border-top:1px solid var(--line2);border-bottom:1px solid var(--line2);margin-bottom:24px}
+.sri-label{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--t3)}
+.sri-val{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:var(--earth)}
+
+.sovereign-block{background:var(--black3);border:1px solid var(--line2);padding:48px;text-align:center;margin-top:1px;position:relative}
+.sov-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,4vw,52px);font-weight:300;color:var(--gold);letter-spacing:0.06em;margin-bottom:10px}
+.sov-sub{font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:var(--t2);margin-bottom:16px}
+.sov-note{font-size:10px;letter-spacing:0.1em;color:var(--t3)}
+
+.coming-soon-panel{background:var(--black3);border:1px dashed var(--line);padding:64px 48px;text-align:center}
+.csp-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--gold);margin-bottom:12px}
+.csp-body{font-size:13px;color:var(--t2);max-width:480px;margin:0 auto;line-height:1.7}
+
+.stake-layout{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line2);margin-bottom:1px}
+.stake-form-cell{background:var(--black);padding:40px}
+.stake-info-cell{background:var(--black);padding:40px}
+.stake-info-rows{display:flex;flex-direction:column;gap:1px;margin-top:20px}
+.sir-row{display:flex;justify-content:space-between;padding:16px 0;border-bottom:1px solid var(--line2)}
+.sir-label{font-size:11px;color:var(--t2);letter-spacing:0.04em}
+.sir-val{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;color:var(--t1)}
+.sir-val.green{color:var(--earth)}
+.sir-val.gold{color:var(--gold)}
+.halving-box{background:var(--black3);border:1px solid var(--line2);padding:28px;margin-top:20px}
+.hb-label{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--t3);margin-bottom:8px}
+.hb-val{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--gold);margin-bottom:4px}
+.hb-note{font-size:11px;color:var(--t2);font-style:italic;font-family:'Cormorant Garamond',serif;font-size:13px}
+
+.toast{position:fixed;bottom:32px;right:32px;background:var(--black3);border-left:2px solid var(--gold);padding:16px 20px;font-size:12px;z-index:999;transform:translateY(80px);opacity:0;transition:all .25s ease;max-width:300px;letter-spacing:0.02em}
+.toast.on{transform:translateY(0);opacity:1}
+.toast.ok{border-color:var(--earth);color:var(--earth)}
+.toast.err{border-color:var(--fire);color:var(--fire)}
+.toast.info{border-color:var(--gold);color:var(--gold)}
+
+@media(max-width:900px){
+  .lnav-links{display:none}
+  .philosophy{grid-template-columns:1fr}
+  .overview,.eco-grid,.stake-layout{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .main{margin-left:0;padding:24px}
+  .stats-bar{grid-template-columns:repeat(2,1fr)}
+  .tok-layout{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="testnet-banner">⚠ Sepolia Testnet — this contract is not yet on Ethereum Mainnet, and AGE here has no real value</div>
+
+<!-- ============================================================
+     LANDING PAGE
+============================================================ -->
+<div class="landing" id="landingPage">
+
+  <nav class="lnav">
+    <div class="lnav-logo">AGE</div>
+    <div class="lnav-links">
+      <a onclick="landingScroll('philosophy')">Philosophy</a>
+      <a onclick="landingScroll('ecosystem')">Ecosystem</a>
+      <a onclick="landingScroll('tokenomics')">Tokenomics</a>
+      <a onclick="landingScroll('roadmap')">Roadmap</a>
+    </div>
+    <button class="lnav-connect" id="connectBtn" onclick="connectWallet()">Connect Wallet</button>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <span class="vert-text vert-left">Built by nobody</span>
+    <span class="vert-text vert-right">Built for everybody</span>
+    <p class="hero-kicker">Ethereum — Sepolia Testnet</p>
+    <h1 class="hero-title">AGE COIN</h1>
+    <p class="hero-sub">AGE is a coin built by nobody, built for everybody.</p>
+    <div class="coin-wrapper">
+      <div class="coin-orbit co3"></div>
+      <div class="coin-orbit co2"></div>
+      <div class="coin-orbit co1"></div>
+      <div class="coin">
+        <div class="coin-inner">
+          <div class="coin-text">AGE</div>
+          <div class="coin-sub">MMXXIV</div>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-cue">
+      <span>Scroll to explore</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <div class="stats-bar">
+    <div class="stat-item"><span class="stat-n">10M</span><span class="stat-l">Fixed Supply</span></div>
+    <div class="stat-item"><span class="stat-n">1.7%</span><span class="stat-l">Total Transfer Fee</span></div>
+    <div class="stat-item"><span class="stat-n">2yr</span><span class="stat-l">Reward Halving</span></div>
+    <div class="stat-item"><span class="stat-n" id="landingTotalStaked">—</span><span class="stat-l">AGE Currently Staked</span></div>
+  </div>
+
+  <section class="philosophy" id="philosophy">
+    <div class="phil-left">
+      <p class="phil-kicker">Our Philosophy</p>
+      <h2 class="phil-title">Equal access to<br/>a <em>better life</em><br/>for every human.</h2>
+      <p class="phil-body">The gap between what people deserve and what the current financial system can reach is not a policy problem. It is an infrastructure problem. AGE is the infrastructure — built on mathematics, verified on chain, accountable to every human being on earth.</p>
+      <button class="phil-cta" onclick="connectWallet()">Enter the Ecosystem →</button>
+    </div>
+    <div>
+      <div class="pillar">
+        <div class="pillar-n">I</div>
+        <div class="pillar-title">Mathematical Integrity</div>
+        <p class="pillar-body">Every fee, every staking reward, and every lock is encoded directly in the contract. No human override. The 2-of-2 multisig that owns this contract can adjust configuration, but it cannot mint new tokens or bypass the fee logic.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-n">II</div>
+        <div class="pillar-title">Universal Access</div>
+        <p class="pillar-body">AGE works with any standard Ethereum wallet — MetaMask, Ledger, or any wallet that supports ERC-20 tokens. Broader reach beyond a smartphone and internet connection is a real long-term goal, not something built yet.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-n">III</div>
+        <div class="pillar-title">Provable Impact</div>
+        <p class="pillar-body">0.5% of every transfer routes automatically to a carbon offset wallet, and 1.0% to a community fund — both addresses are public and verifiable on-chain, not a promise.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ECOSYSTEM -->
+  <section class="ecosystem-section" id="ecosystem">
+    <p class="eco-kicker">The Four Elements <span class="coming-soon-badge">Planned — Not Yet Live</span></p>
+    <h2 class="eco-title">One ecosystem.<br/><em>Four paths</em> to grow.</h2>
+    <p class="eco-sub">This is a real future direction for AGE, not something built into the contract yet. The plan: every wallet eventually picks one Element Identity — a score tracked inside the contract itself, not a separate token — reflecting how they engage with the ecosystem. It will only be built if real usage after launch justifies it.</p>
+    <div class="eco-grid">
+      <div class="eco-card eco-fire">
+        <div class="eco-icon">🔥</div>
+        <div class="eco-el">Fire</div>
+        <div class="eco-name">The Creator</div>
+        <p class="eco-desc">Content engagement — music, creativity.</p>
+        <ul class="eco-xp-list"><li>Not yet live<span>—</span></li></ul>
+      </div>
+      <div class="eco-card eco-air">
+        <div class="eco-icon">💨</div>
+        <div class="eco-el">Air</div>
+        <div class="eco-name">The Connector</div>
+        <p class="eco-desc">Referrals and social/community actions.</p>
+        <ul class="eco-xp-list"><li>Not yet live<span>—</span></li></ul>
+      </div>
+      <div class="eco-card eco-water">
+        <div class="eco-icon">💧</div>
+        <div class="eco-el">Water</div>
+        <div class="eco-name">The Builder</div>
+        <p class="eco-desc">Purchases, commerce, and events.</p>
+        <ul class="eco-xp-list"><li>Not yet live<span>—</span></li></ul>
+      </div>
+      <div class="eco-card eco-earth">
+        <div class="eco-icon">🌍</div>
+        <div class="eco-el">Earth</div>
+        <div class="eco-name">The Guardian</div>
+        <p class="eco-desc">Verified real-world impact actions.</p>
+        <ul class="eco-xp-list"><li>Not yet live<span>—</span></li></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOKENOMICS -->
+  <section class="tokenomics-section" id="tokenomics">
+    <div class="tok-layout">
+      <div>
+        <p class="tok-kicker">Tokenomics</p>
+        <h2 class="tok-title">Built to last.<br/>Built to give.</h2>
+        <p class="tok-body">10 million AGE Coin. Fixed forever — the contract has no minting function, so this number can never increase. Every transfer automatically funds carbon offset, the community fund, and a self-sustaining staking reward pool.</p>
+        <div class="tok-supply-big">10M</div>
+        <span class="tok-supply-label">Fixed supply — no minting function exists</span>
+        <div class="tok-fees">
+          <div class="tok-fee"><div class="tok-fee-n">0.5%</div><div class="tok-fee-l">Every transfer<br/>Carbon offset</div></div>
+          <div class="tok-fee"><div class="tok-fee-n">1.0%</div><div class="tok-fee-l">Every transfer<br/>Community fund</div></div>
+          <div class="tok-fee"><div class="tok-fee-n">0.2%</div><div class="tok-fee-l">Every transfer<br/>Staking reward pool</div></div>
+        </div>
+        <div class="tok-box">
+          <div class="tok-box-label">Staking Rewards — Real, Deployed, Tested</div>
+          <p style="font-size:13px;color:var(--t2);line-height:1.7">Rewards are funded entirely by the 0.2% fee above — never minted — and the payout rate halves automatically every 2 years. The contract can never pay out more than it has actually collected in fees, so it's mathematically incapable of running dry.</p>
+        </div>
+      </div>
+      <div>
+        <div class="tok-box" style="margin-top:0">
+          <div class="tok-box-label">Ownership &amp; Security — What's Actually True Today</div>
+          <div class="tok-dist">
+            <div class="tok-dist-row"><span class="tok-dist-name">2-of-2 multisig contract ownership</span><span class="tok-dist-val green">Live (testnet)</span></div>
+            <div class="tok-dist-row"><span class="tok-dist-name">Self-funding staking rewards, 2yr halving</span><span class="tok-dist-val green">Live (testnet)</span></div>
+            <div class="tok-dist-row"><span class="tok-dist-name">Automated security scan (Slither)</span><span class="tok-dist-val green">Clean</span></div>
+            <div class="tok-dist-row"><span class="tok-dist-name">43-test automated test suite</span><span class="tok-dist-val green">Passing</span></div>
+            <div class="tok-dist-row"><span class="tok-dist-name">Independent professional audit</span><span class="tok-dist-val">Planned, not yet done</span></div>
+            <div class="tok-dist-row"><span class="tok-dist-name">Ethereum Mainnet deployment</span><span class="tok-dist-val">Not yet — testnet only</span></div>
+          </div>
+        </div>
+        <div class="tok-box">
+          <div class="tok-box-label">Current Token Distribution</div>
+          <p style="font-size:12px;color:var(--t2);line-height:1.7">100% of the fixed 10M supply is currently held by the founding wallet (now secured behind the 2-of-2 multisig above). No public sale, team vesting, or liquidity allocation exists yet — those are real future decisions, not yet made or built.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROADMAP -->
+  <section class="roadmap-section" id="roadmap">
+    <p class="rm-kicker">The Declaration</p>
+    <h2 class="rm-title">Where things<br/>actually stand.</h2>
+    <div class="rm-timeline">
+      <div class="rm-phase rm-phase-1">
+        <div class="rm-dot"></div>
+        <div class="rm-meta"><span class="rm-tag">Done</span><span class="rm-timing">Today</span></div>
+        <div class="rm-phase-title">The Foundation</div>
+        <div class="rm-phase-sub">Built, tested, and verified on Ethereum's Sepolia testnet.</div>
+        <ul class="rm-list">
+          <li><strong>AGE Coin deployed and verified on Sepolia</strong> — 10M fixed supply, source code public on Etherscan</li>
+          <li><strong>Automatic carbon offset + community fund fees</strong> — 0.5% / 1.0% on every transfer</li>
+          <li><strong>Self-funding staking rewards</strong> — 0.2% fee, 2-year halving, pool-capped payouts</li>
+          <li><strong>2-of-2 multisig ownership</strong> — no single key controls the contract anymore</li>
+          <li><strong>43-test automated suite + Slither security scan</strong>, both clean</li>
+        </ul>
+      </div>
+      <div class="rm-phase rm-phase-2">
+        <div class="rm-dot"></div>
+        <div class="rm-meta"><span class="rm-tag">Next</span><span class="rm-timing">Before Mainnet</span></div>
+        <div class="rm-phase-title">The Review</div>
+        <div class="rm-phase-sub">What has to happen before any real money is involved.</div>
+        <ul class="rm-list">
+          <li><strong>Independent professional smart contract audit</strong></li>
+          <li><strong>Legal/securities consultation</strong> for A.G.E. CO. (LLC)</li>
+          <li><strong>Ethereum Mainnet deployment</strong>, once the above are clear</li>
+        </ul>
+      </div>
+      <div class="rm-phase rm-phase-3">
+        <div class="rm-dot"></div>
+        <div class="rm-meta"><span class="rm-tag">Future</span><span class="rm-timing">Only if usage justifies it</span></div>
+        <div class="rm-phase-title">The Ecosystem</div>
+        <div class="rm-phase-sub">Real ideas, deliberately not built until there's a real reason to.</div>
+        <ul class="rm-list">
+          <li><strong>Element Identity system</strong> — an on-chain score, not a token</li>
+          <li><strong>Governance</strong> and community proposal rights</li>
+          <li><strong>Broader access</strong> beyond a standard smartphone wallet</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer class="landing-footer">
+    <div class="footer-logo">AGE</div>
+    <div class="footer-tagline">Equal access to a better life, for every human on earth, starting today.</div>
+    <div class="footer-links">
+      <a>Whitepaper</a><a onclick="landingScroll('roadmap')">Roadmap</a><a>GitHub</a>
+    </div>
+  </footer>
+
+</div>
+
+<!-- ============================================================
+     DASHBOARD APP
+============================================================ -->
+<div class="dashboard-app" id="dashboardApp">
+
+  <nav class="app-nav">
+    <div class="app-logo">AGE</div>
+    <div class="app-wallet">
+      <div class="wallet-dot"></div>
+      <span class="wallet-addr" id="walletAddr">—</span>
+    </div>
+  </nav>
+
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <span class="sidebar-label">Navigate</span>
+        <button class="sidebar-link active" onclick="showTab('dashboard',this)">Dashboard</button>
+        <button class="sidebar-link" onclick="showTab('stake',this)">Stake</button>
+        <button class="sidebar-link" onclick="showTab('ecosystem',this)">Elements (Preview)</button>
+      </div>
+      <div class="sidebar-bottom">
+        <button class="logout-btn" onclick="logout()">Disconnect</button>
+      </div>
+    </aside>
+
+    <main class="main">
+
+      <!-- DASHBOARD TAB -->
+      <div class="tab-panel active" id="tab-dashboard">
+        <div class="overview">
+          <div class="ov-card">
+            <span class="cell-label">AGE Balance</span>
+            <div class="cell-big" id="ageVal">—</div>
+            <div class="cell-sub">Live from your wallet</div>
+          </div>
+          <div class="ov-card">
+            <span class="cell-label">Staked</span>
+            <div class="cell-big" id="stakeVal">—</div>
+            <div class="cell-sub">Live from the contract</div>
+          </div>
+          <div class="ov-card">
+            <span class="cell-label">Pending Rewards</span>
+            <div class="cell-big" id="earnedVal">—</div>
+            <div class="cell-sub">Accrues automatically while staked</div>
+          </div>
+        </div>
+
+        <div class="grid-line g2">
+          <div class="cell">
+            <span class="cell-label">Current Reward Rate</span>
+            <div class="cell-big" id="rewardRateVal">—</div>
+            <div class="cell-sub">AGE/day ceiling, halves every 2 years — actual payout is capped by real fee revenue collected</div>
+          </div>
+          <div class="cell">
+            <span class="cell-label">Total AGE Staked (all users)</span>
+            <div class="cell-big" id="totalStakedVal">—</div>
+            <div class="cell-sub">Out of a fixed 10,000,000 AGE supply</div>
+          </div>
+        </div>
+
+        <div class="stake-card" style="margin-top:1px">
+          <span class="cell-label">Quick Actions</span>
+          <input class="age-input" type="number" id="stakeInputDash" placeholder="Amount of AGE"/>
+          <div class="input-hint">Available: <span id="stakeAvail">—</span> AGE</div>
+          <button class="gold-btn" onclick="doStake('stakeInputDash')">Stake</button>
+          <button class="ghost-btn" onclick="doClaim()">Claim Pending Rewards</button>
+        </div>
+      </div>
+
+      <!-- STAKE TAB -->
+      <div class="tab-panel" id="tab-stake">
+        <span class="section-kicker">Staking</span>
+        <div class="section-title">Stake AGE</div>
+        <div class="stake-layout">
+          <div class="stake-form-cell">
+            <span class="cell-label">Stake AGE Coin</span>
+            <div style="margin-top:16px;margin-bottom:24px">
+              <input class="age-input" type="number" id="stakeInputTab" placeholder="Amount to stake"/>
+              <div class="input-hint">Available: <span id="stakeAvailTab">—</span> AGE</div>
+            </div>
+            <button class="gold-btn" onclick="doStake('stakeInputTab')">Stake</button>
+            <div style="margin-top:16px;margin-bottom:8px;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--t3)">Unstake</div>
+            <input class="age-input" type="number" id="unstakeInput" placeholder="Amount to unstake"/>
+            <div class="input-hint">Staked: <span id="unstakeAvail">—</span> AGE — withdrawable any time, no lock-up</div>
+            <button class="ghost-btn" onclick="doUnstake()">Unstake</button>
+          </div>
+          <div class="stake-info-cell">
+            <span class="cell-label">Staking Overview</span>
+            <div class="stake-info-rows">
+              <div class="sir-row"><span class="sir-label">Total Staked (all users)</span><span class="sir-val gold" id="stakeTabTotal">—</span></div>
+              <div class="sir-row"><span class="sir-label">Reward Funding</span><span class="sir-val">0.2% of every transfer</span></div>
+              <div class="sir-row"><span class="sir-label">Your Pending Rewards</span><span class="sir-val gold" id="pendingRewards">—</span></div>
+            </div>
+            <div class="halving-box">
+              <div class="hb-label">Reward Halving</div>
+              <div class="hb-val">Every 2 years</div>
+              <div class="hb-note">The payout rate halves automatically based on time since deployment — no manual step required. Actual payouts are always capped by real fee revenue collected, so this can never pay out more than it has.</div>
+            </div>
+            <button class="gold-btn" style="margin-top:16px" onclick="doClaim()">Claim Rewards</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ECOSYSTEM / ELEMENTS PREVIEW TAB -->
+      <div class="tab-panel" id="tab-ecosystem">
+        <span class="section-kicker">Preview</span>
+        <div class="section-title">Element Identity</div>
+        <div class="coming-soon-panel">
+          <div class="csp-title">Not built yet — by design</div>
+          <p class="csp-body">This is a real, considered idea for a future version of AGE: an on-chain Element Identity (Fire, Air, Water, Earth) tracked as a score inside the contract itself, not a separate token. It has deliberately not been built into the live contract — it's planned to be added only if real usage after launch justifies it, not on a fixed calendar.</p>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+// CONFIG — Sepolia testnet deployment
+// ============================================================
+const CONTRACT_ADDRESS = "0xfa3cf7D22CA5d08A1A5aee48381263e135b0663E";
+const SEPOLIA_CHAIN_ID_HEX = "0xaa36a7"; // 11155111
+const CONTRACT_ABI = [
+  "function balanceOf(address account) view returns (uint256)",
+  "function stakedBalance(address account) view returns (uint256)",
+  "function earned(address account) view returns (uint256)",
+  "function totalStaked() view returns (uint256)",
+  "function totalSupply() view returns (uint256)",
+  "function rewardRateAt(uint256 timestamp) view returns (uint256)",
+  "function stake(uint256 amount)",
+  "function unstake(uint256 amount)",
+  "function claimReward()"
+];
+
+let provider, signer, contract, userAddress;
+
+// ============================================================
+// LANDING PAGE NAVIGATION
+// ============================================================
+function landingScroll(section){
+  const el = document.getElementById(section);
+  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+// ============================================================
+// WALLET CONNECT — real MetaMask + real Sepolia network check
+// ============================================================
+async function connectWallet(){
+  if(typeof window.ethereum === 'undefined'){
+    toast('MetaMask (or another Ethereum wallet) not detected. Please install one to continue.', 'err');
+    return;
+  }
+  const btn = document.getElementById('connectBtn');
+  btn.disabled = true;
+  try{
+    provider = new ethers.BrowserProvider(window.ethereum);
+    await provider.send('eth_requestAccounts', []);
+    await ensureSepoliaNetwork();
+    signer = await provider.getSigner();
+    userAddress = await signer.getAddress();
+    contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
+
+    document.getElementById('walletAddr').textContent = userAddress.slice(0,6) + '...' + userAddress.slice(-4);
+    switchToDash();
+    await refreshAllData();
+    toast('Wallet connected on Sepolia testnet.', 'ok');
+  }catch(e){
+    console.error(e);
+    toast('Connection failed or rejected.', 'err');
+  }finally{
+    btn.disabled = false;
+  }
+}
+
+async function ensureSepoliaNetwork(){
+  const currentChainId = await window.ethereum.request({ method: 'eth_chainId' });
+  if(currentChainId === SEPOLIA_CHAIN_ID_HEX) return;
+  try{
+    await window.ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: SEPOLIA_CHAIN_ID_HEX }]
+    });
+  }catch(switchError){
+    if(switchError.code === 4902){
+      await window.ethereum.request({
+        method: 'wallet_addEthereumChain',
+        params: [{
+          chainId: SEPOLIA_CHAIN_ID_HEX,
+          chainName: 'Sepolia Test Network',
+          nativeCurrency: { name: 'Sepolia ETH', symbol: 'ETH', decimals: 18 },
+          rpcUrls: ['https://ethereum-sepolia-rpc.publicnode.com'],
+          blockExplorerUrls: ['https://sepolia.etherscan.io']
+        }]
+      });
+    }else{
+      throw switchError;
+    }
+  }
+}
+
+if(typeof window.ethereum !== 'undefined'){
+  window.ethereum.on('accountsChanged', () => window.location.reload());
+  window.ethereum.on('chainChanged', () => window.location.reload());
+}
+
+function switchToDash(){
+  document.getElementById('landingPage').style.display = 'none';
+  document.getElementById('dashboardApp').style.display = 'block';
+}
+
+function logout(){
+  document.getElementById('landingPage').style.display = 'block';
+  document.getElementById('dashboardApp').style.display = 'none';
+  userAddress = null; signer = null; contract = null;
+}
+
+// ============================================================
+// TAB NAVIGATION
+// ============================================================
+function showTab(tabName, btn){
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById('tab-' + tabName);
+  if(target) target.classList.add('active');
+  document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+}
+
+// ============================================================
+// REAL CONTRACT READS
+// ============================================================
+async function refreshAllData(){
+  try{
+    const [balance, staked, earned, totalStaked, totalSupply, rate] = await Promise.all([
+      contract.balanceOf(userAddress),
+      contract.stakedBalance(userAddress),
+      contract.earned(userAddress),
+      contract.totalStaked(),
+      contract.totalSupply(),
+      contract.rewardRateAt(Math.floor(Date.now() / 1000))
+    ]);
+
+    const fmt = (x) => Number(ethers.formatUnits(x, 18)).toLocaleString(undefined, { maximumFractionDigits: 4 });
+    const ratePerDay = (rate * 86400n);
+
+    set('ageVal', fmt(balance));
+    set('stakeVal', fmt(staked));
+    set('earnedVal', fmt(earned));
+    set('stakeAvail', fmt(balance));
+    set('stakeAvailTab', fmt(balance));
+    set('unstakeAvail', fmt(staked));
+    set('totalStakedVal', fmt(totalStaked));
+    set('stakeTabTotal', fmt(totalStaked) + ' AGE');
+    set('pendingRewards', fmt(earned) + ' AGE');
+    set('rewardRateVal', fmt(ratePerDay));
+    set('landingTotalStaked', fmt(totalStaked));
+  }catch(e){
+    console.error(e);
+    toast('Could not load contract data.', 'err');
+  }
+}
+
+function set(id, val){ const el = document.getElementById(id); if(el) el.textContent = val; }
+
+// ============================================================
+// REAL CONTRACT WRITES
+// ============================================================
+async function doStake(inputId){
+  const raw = document.getElementById(inputId).value;
+  if(!raw || Number(raw) <= 0){ toast('Enter a valid amount.', 'err'); return; }
+  try{
+    const amount = ethers.parseUnits(raw, 18);
+    toast('Confirm the transaction in your wallet...', 'info');
+    const tx = await contract.stake(amount);
+    toast('Transaction sent — waiting for confirmation...', 'info');
+    await tx.wait();
+    document.getElementById(inputId).value = '';
+    await refreshAllData();
+    toast('Staked successfully.', 'ok');
+  }catch(e){
+    console.error(e);
+    toast('Transaction failed or was rejected.', 'err');
+  }
+}
+
+async function doUnstake(){
+  const raw = document.getElementById('unstakeInput').value;
+  if(!raw || Number(raw) <= 0){ toast('Enter a valid amount.', 'err'); return; }
+  try{
+    const amount = ethers.parseUnits(raw, 18);
+    toast('Confirm the transaction in your wallet...', 'info');
+    const tx = await contract.unstake(amount);
+    toast('Transaction sent — waiting for confirmation...', 'info');
+    await tx.wait();
+    document.getElementById('unstakeInput').value = '';
+    await refreshAllData();
+    toast('Unstaked successfully.', 'ok');
+  }catch(e){
+    console.error(e);
+    toast('Transaction failed or was rejected.', 'err');
+  }
+}
+
+async function doClaim(){
+  try{
+    toast('Confirm the transaction in your wallet...', 'info');
+    const tx = await contract.claimReward();
+    toast('Transaction sent — waiting for confirmation...', 'info');
+    await tx.wait();
+    await refreshAllData();
+    toast('Rewards claimed.', 'ok');
+  }catch(e){
+    console.error(e);
+    const msg = (e && e.reason) ? e.reason : 'Transaction failed, was rejected, or there was nothing to claim.';
+    toast(msg, 'err');
+  }
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+let toastTimer;
+function toast(msg, type){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast on ' + (type || 'info');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('on'), 4500);
+}
+</script>
+</body>
+</html>
