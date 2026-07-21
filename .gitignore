@@ -139,5 +139,8 @@ dist
 artifacts/
 cache/
 
+# Move build output
+sui-contracts/**/build/
+
 # macOS
 .DS_Store

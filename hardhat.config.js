@@ -11,4 +11,7 @@ module.exports = {
         : [],
     },
   },
+  etherscan: {
+    apiKey: vars.has("ETHERSCAN_API_KEY") ? vars.get("ETHERSCAN_API_KEY") : "",
+  },
 };
