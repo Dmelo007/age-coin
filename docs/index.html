@@ -399,7 +399,7 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
             <div class="tok-dist-row"><span class="tok-dist-name">65-test automated test suite</span><span class="tok-dist-val green">Passing</span></div>
             <div class="tok-dist-row"><span class="tok-dist-name">Independent professional audit</span><span class="tok-dist-val">Planned, not yet done</span></div>
             <div class="tok-dist-row"><span class="tok-dist-name">Ethereum Mainnet deployment</span><span class="tok-dist-val green">Live</span></div>
-            <div class="tok-dist-row"><span class="tok-dist-name">Uniswap liquidity pool (buyable via wallets)</span><span class="tok-dist-val">Not yet set up</span></div>
+            <div class="tok-dist-row"><span class="tok-dist-name">Uniswap liquidity pool (buyable via wallets)</span><span class="tok-dist-val green">Live, but still thin</span></div>
           </div>
         </div>
         <div class="tok-box">
@@ -427,17 +427,18 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
           <li><strong>2-of-2 multisig ownership</strong> — no single key controls the contract anymore</li>
           <li><strong>Self-healing circuit breaker</strong> — automatically restricts and automatically recovers from abnormal transfer volume, no human required</li>
           <li><strong>65-test automated suite + Slither security scan</strong>, both clean</li>
+          <li><strong>Uniswap liquidity pool live</strong> — AGE is actually buyable via MetaMask and other wallets today, though the pool is still small and thin</li>
         </ul>
       </div>
       <div class="rm-phase rm-phase-2">
         <div class="rm-dot"></div>
-        <div class="rm-meta"><span class="rm-tag">Next</span><span class="rm-timing">Before public trading</span></div>
+        <div class="rm-meta"><span class="rm-tag">Next</span><span class="rm-timing">Before broader trust</span></div>
         <div class="rm-phase-title">The Review</div>
-        <div class="rm-phase-sub">What's left before this is something the public can safely buy.</div>
+        <div class="rm-phase-sub">What's left before this deserves wider public confidence, not just technical function.</div>
         <ul class="rm-list">
           <li><strong>Independent professional smart contract audit</strong> — not yet done</li>
           <li><strong>Legal/securities consultation</strong> for A.G.E. CO. (LLC) — not yet done</li>
-          <li><strong>Uniswap liquidity pool</strong> — so AGE is actually buyable via MetaMask and other wallets</li>
+          <li><strong>Deeper liquidity</strong> — today's pool is small enough that even modest trades move the price significantly</li>
         </ul>
       </div>
       <div class="rm-phase rm-phase-3">
@@ -512,7 +513,7 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
         <tr><td>Independent professional audit</td><td class="planned">Planned, not yet complete</td></tr>
         <tr><td>Legal/securities review of A.G.E. CO. (LLC)</td><td class="planned">Planned, not yet complete</td></tr>
         <tr><td>Ethereum Mainnet deployment</td><td class="live">Live</td></tr>
-        <tr><td>Uniswap liquidity pool (buyable via wallets)</td><td class="planned">Not yet set up</td></tr>
+        <tr><td>Uniswap liquidity pool (buyable via wallets)</td><td class="live">Live, but still thin</td></tr>
       </table>
       <p>Contract ownership was moved from a single private key to a 2-of-2 multisig (Safe) — no single key can change contract configuration alone anymore. This was the top recommendation from our own internal security review and was implemented before any other planned upgrade.</p>
       <p>The circuit breaker watches the contract's own transfer volume using a sliding time window and automatically moves between three states: Green (normal operation), Yellow (caps individual transfer size, pauses new staking), and Red (pauses transfers and new staking entirely). It recovers on its own once volume normalizes — no human action required, and no external oracle involved. Unstaking and claiming already-earned rewards are never affected, in any mode; that guarantee has no exceptions.</p>
@@ -523,7 +524,7 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
     <h2 class="wp-h2">5. Current Deployment</h2>
     <div class="wp-body">
       <p>AGE Coin is deployed on <strong>Ethereum Mainnet</strong> — this is real, not a test. The full 10,000,000 AGE supply exists and is held under the multisig-controlled deployer wallet.</p>
-      <p>Important nuance: being deployed does not yet mean AGE is publicly tradeable. No liquidity pool exists yet on any exchange (Uniswap or otherwise), so there is currently no public market price and no straightforward way for the general public to acquire it. That is intentionally the next step, not something that happens automatically at deployment.</p>
+      <p>A Uniswap v2 liquidity pool is now live (AGE/ETH), meaning AGE is genuinely buyable through MetaMask and other wallets today. Important nuance to stay honest about: this pool is still small, so even modest trades move the price significantly — this is an early, thin market, not a mature one. Depth will grow over time as more liquidity is added.</p>
       <p>Also still true: this contract has not yet undergone an independent professional security audit, and A.G.E. CO. has not yet completed a legal/securities review. Both remain open items — see the roadmap below.</p>
       <p>Contract source code is verified and publicly readable on Etherscan. The GitHub repository contains the full contract source, test suite, and deployment scripts.</p>
     </div>
@@ -532,8 +533,8 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
   <div class="wp-section">
     <h2 class="wp-h2">6. Roadmap</h2>
     <div class="wp-body">
-      <p><strong>Done:</strong> core contract deployed and verified on Ethereum Mainnet; automatic carbon offset and community fund fees; self-funding staking rewards with halving; 2-of-2 multisig ownership; a self-healing circuit breaker; automated test suite and security scan.</p>
-      <p><strong>Next, before public trading:</strong> independent professional smart contract audit; legal/securities consultation for A.G.E. CO.; a Uniswap liquidity pool so AGE is actually buyable via MetaMask and other wallets.</p>
+      <p><strong>Done:</strong> core contract deployed and verified on Ethereum Mainnet; automatic carbon offset and community fund fees; self-funding staking rewards with halving; 2-of-2 multisig ownership; a self-healing circuit breaker; automated test suite and security scan; a live Uniswap v2 liquidity pool.</p>
+      <p><strong>Next, before broader trust:</strong> independent professional smart contract audit; legal/securities consultation for A.G.E. CO.; deeper liquidity (today's pool is small enough that even modest trades move the price significantly).</p>
       <p><strong>Future, only if real usage justifies it:</strong> an Element Identity system (an on-chain engagement score, not a separate token); governance and community proposal rights; broader access beyond a standard smartphone wallet.</p>
     </div>
   </div>
