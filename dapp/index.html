@@ -47,7 +47,7 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
 .lnav-connect:hover{background:var(--gold2)}
 .lnav-connect:disabled{opacity:0.5;cursor:not-allowed}
 
-.hero{min-height:calc(100vh - 106px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px 48px 0;position:relative;overflow:hidden}
+.hero{min-height:calc(100vh - 72px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px 48px 0;position:relative;overflow:hidden}
 .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 40%,rgba(201,169,110,0.04) 0%,transparent 70%);pointer-events:none}
 .hero-kicker{font-size:10px;font-weight:500;letter-spacing:0.35em;text-transform:uppercase;color:var(--t2);margin-bottom:32px}
 .hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(72px,12vw,160px);font-weight:300;letter-spacing:0.08em;color:var(--gold);line-height:0.9;margin-bottom:32px}
@@ -206,7 +206,7 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
 .wallet-addr{font-weight:500;letter-spacing:0.04em;color:var(--t1)}
 
 .app-layout{display:flex;min-height:100vh}
-.sidebar{width:200px;flex-shrink:0;border-right:1px solid var(--line2);padding:40px 0;position:sticky;top:99px;align-self:flex-start;height:calc(100vh - 99px);overflow-y:auto;background:var(--black)}
+.sidebar{width:200px;flex-shrink:0;border-right:1px solid var(--line2);padding:40px 0;position:sticky;top:64px;align-self:flex-start;height:calc(100vh - 64px);overflow-y:auto;background:var(--black)}
 .sidebar-section{margin-bottom:40px;padding:0 24px}
 .sidebar-label{font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--t3);margin-bottom:16px;display:block}
 .sidebar-link{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--t3);text-decoration:none;padding:10px 0;cursor:pointer;transition:color .15s;border:none;background:none;width:100%;text-align:left}
@@ -293,8 +293,6 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
 </head>
 <body>
 
-<div class="testnet-banner">⚠ Sepolia Testnet — this contract is not yet on Ethereum Mainnet, and AGE here has no real value</div>
-
 <!-- ============================================================
      LANDING PAGE
 ============================================================ -->
@@ -314,7 +312,7 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
     <div class="hero-bg"></div>
     <span class="vert-text vert-left">Built by nobody</span>
     <span class="vert-text vert-right">Built for everybody</span>
-    <p class="hero-kicker">Ethereum — Sepolia Testnet</p>
+    <p class="hero-kicker">Ethereum Mainnet</p>
     <h1 class="hero-title">AGE COIN</h1>
     <p class="hero-sub">AGE is a coin built by nobody, built for everybody.</p>
     <div class="coin-wrapper">
@@ -394,13 +392,14 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
         <div class="tok-box" style="margin-top:0">
           <div class="tok-box-label">Ownership &amp; Security — What's Actually True Today</div>
           <div class="tok-dist">
-            <div class="tok-dist-row"><span class="tok-dist-name">2-of-2 multisig contract ownership</span><span class="tok-dist-val green">Live (testnet)</span></div>
-            <div class="tok-dist-row"><span class="tok-dist-name">Self-funding staking rewards, 2yr halving</span><span class="tok-dist-val green">Live (testnet)</span></div>
-            <div class="tok-dist-row"><span class="tok-dist-name">Self-healing circuit breaker (Green/Yellow/Red)</span><span class="tok-dist-val green">Live (testnet)</span></div>
+            <div class="tok-dist-row"><span class="tok-dist-name">2-of-2 multisig contract ownership</span><span class="tok-dist-val green">Live</span></div>
+            <div class="tok-dist-row"><span class="tok-dist-name">Self-funding staking rewards, 2yr halving</span><span class="tok-dist-val green">Live</span></div>
+            <div class="tok-dist-row"><span class="tok-dist-name">Self-healing circuit breaker (Green/Yellow/Red)</span><span class="tok-dist-val green">Live</span></div>
             <div class="tok-dist-row"><span class="tok-dist-name">Automated security scan (Slither)</span><span class="tok-dist-val green">Clean</span></div>
             <div class="tok-dist-row"><span class="tok-dist-name">65-test automated test suite</span><span class="tok-dist-val green">Passing</span></div>
             <div class="tok-dist-row"><span class="tok-dist-name">Independent professional audit</span><span class="tok-dist-val">Planned, not yet done</span></div>
-            <div class="tok-dist-row"><span class="tok-dist-name">Ethereum Mainnet deployment</span><span class="tok-dist-val">Not yet — testnet only</span></div>
+            <div class="tok-dist-row"><span class="tok-dist-name">Ethereum Mainnet deployment</span><span class="tok-dist-val green">Live</span></div>
+            <div class="tok-dist-row"><span class="tok-dist-name">Uniswap liquidity pool (buyable via wallets)</span><span class="tok-dist-val">Not yet set up</span></div>
           </div>
         </div>
         <div class="tok-box">
@@ -420,9 +419,9 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
         <div class="rm-dot"></div>
         <div class="rm-meta"><span class="rm-tag">Done</span><span class="rm-timing">Today</span></div>
         <div class="rm-phase-title">The Foundation</div>
-        <div class="rm-phase-sub">Built, tested, and verified on Ethereum's Sepolia testnet.</div>
+        <div class="rm-phase-sub">Built, tested, and now live on Ethereum Mainnet.</div>
         <ul class="rm-list">
-          <li><strong>AGE Coin deployed and verified on Sepolia</strong> — 10M fixed supply, source code public on Etherscan</li>
+          <li><strong>AGE Coin deployed and verified on Ethereum Mainnet</strong> — 10M fixed supply, source code public on Etherscan</li>
           <li><strong>Automatic carbon offset + community fund fees</strong> — 0.5% / 1.0% on every transfer</li>
           <li><strong>Self-funding staking rewards</strong> — 0.2% fee, 2-year halving, pool-capped payouts</li>
           <li><strong>2-of-2 multisig ownership</strong> — no single key controls the contract anymore</li>
@@ -432,13 +431,13 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
       </div>
       <div class="rm-phase rm-phase-2">
         <div class="rm-dot"></div>
-        <div class="rm-meta"><span class="rm-tag">Next</span><span class="rm-timing">Before Mainnet</span></div>
+        <div class="rm-meta"><span class="rm-tag">Next</span><span class="rm-timing">Before public trading</span></div>
         <div class="rm-phase-title">The Review</div>
-        <div class="rm-phase-sub">What has to happen before any real money is involved.</div>
+        <div class="rm-phase-sub">What's left before this is something the public can safely buy.</div>
         <ul class="rm-list">
-          <li><strong>Independent professional smart contract audit</strong></li>
-          <li><strong>Legal/securities consultation</strong> for A.G.E. CO. (LLC)</li>
-          <li><strong>Ethereum Mainnet deployment</strong>, once the above are clear</li>
+          <li><strong>Independent professional smart contract audit</strong> — not yet done</li>
+          <li><strong>Legal/securities consultation</strong> for A.G.E. CO. (LLC) — not yet done</li>
+          <li><strong>Uniswap liquidity pool</strong> — so AGE is actually buyable via MetaMask and other wallets</li>
         </ul>
       </div>
       <div class="rm-phase rm-phase-3">
@@ -471,7 +470,7 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
 <div class="whitepaper-page" id="whitepaperPage">
   <span class="wp-back" onclick="hideWhitepaper()">← Back to AGE Coin</span>
   <h1 class="wp-title">AGE Coin — Whitepaper</h1>
-  <p class="wp-meta">Version 1.0 — Sepolia Testnet Deployment — Last updated 2026-07-21</p>
+  <p class="wp-meta">Version 1.1 — Ethereum Mainnet Deployment — Last updated 2026-07-22</p>
 
   <div class="wp-section">
     <h2 class="wp-h2">1. Mission</h2>
@@ -505,14 +504,15 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
     <h2 class="wp-h2">4. Security &amp; Ownership — Current Status</h2>
     <div class="wp-body">
       <table class="wp-status-table">
-        <tr><td>2-of-2 multisig contract ownership</td><td class="live">Live (testnet)</td></tr>
-        <tr><td>Self-funding staking rewards, 2-year halving</td><td class="live">Live (testnet)</td></tr>
-        <tr><td>Self-healing circuit breaker (Green/Yellow/Red)</td><td class="live">Live (testnet)</td></tr>
+        <tr><td>2-of-2 multisig contract ownership</td><td class="live">Live</td></tr>
+        <tr><td>Self-funding staking rewards, 2-year halving</td><td class="live">Live</td></tr>
+        <tr><td>Self-healing circuit breaker (Green/Yellow/Red)</td><td class="live">Live</td></tr>
         <tr><td>Automated security scan (Slither)</td><td class="live">Clean, no critical findings</td></tr>
         <tr><td>Automated test suite</td><td class="live">65 tests passing</td></tr>
         <tr><td>Independent professional audit</td><td class="planned">Planned, not yet complete</td></tr>
         <tr><td>Legal/securities review of A.G.E. CO. (LLC)</td><td class="planned">Planned, not yet complete</td></tr>
-        <tr><td>Ethereum Mainnet deployment</td><td class="planned">Not yet — testnet only</td></tr>
+        <tr><td>Ethereum Mainnet deployment</td><td class="live">Live</td></tr>
+        <tr><td>Uniswap liquidity pool (buyable via wallets)</td><td class="planned">Not yet set up</td></tr>
       </table>
       <p>Contract ownership was moved from a single private key to a 2-of-2 multisig (Safe) — no single key can change contract configuration alone anymore. This was the top recommendation from our own internal security review and was implemented before any other planned upgrade.</p>
       <p>The circuit breaker watches the contract's own transfer volume using a sliding time window and automatically moves between three states: Green (normal operation), Yellow (caps individual transfer size, pauses new staking), and Red (pauses transfers and new staking entirely). It recovers on its own once volume normalizes — no human action required, and no external oracle involved. Unstaking and claiming already-earned rewards are never affected, in any mode; that guarantee has no exceptions.</p>
@@ -522,7 +522,9 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
   <div class="wp-section">
     <h2 class="wp-h2">5. Current Deployment</h2>
     <div class="wp-body">
-      <p>AGE Coin is currently deployed only on the <strong>Sepolia testnet</strong>, not Ethereum Mainnet. Tokens held on this deployment have no real-world monetary value. This is a testing and development environment.</p>
+      <p>AGE Coin is deployed on <strong>Ethereum Mainnet</strong> — this is real, not a test. The full 10,000,000 AGE supply exists and is held under the multisig-controlled deployer wallet.</p>
+      <p>Important nuance: being deployed does not yet mean AGE is publicly tradeable. No liquidity pool exists yet on any exchange (Uniswap or otherwise), so there is currently no public market price and no straightforward way for the general public to acquire it. That is intentionally the next step, not something that happens automatically at deployment.</p>
+      <p>Also still true: this contract has not yet undergone an independent professional security audit, and A.G.E. CO. has not yet completed a legal/securities review. Both remain open items — see the roadmap below.</p>
       <p>Contract source code is verified and publicly readable on Etherscan. The GitHub repository contains the full contract source, test suite, and deployment scripts.</p>
     </div>
   </div>
@@ -530,8 +532,8 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
   <div class="wp-section">
     <h2 class="wp-h2">6. Roadmap</h2>
     <div class="wp-body">
-      <p><strong>Done:</strong> core contract deployed and verified on Sepolia; automatic carbon offset and community fund fees; self-funding staking rewards with halving; 2-of-2 multisig ownership; a self-healing circuit breaker; automated test suite and security scan.</p>
-      <p><strong>Next, before Mainnet:</strong> independent professional smart contract audit; legal/securities consultation for A.G.E. CO.; Ethereum Mainnet deployment once both are clear.</p>
+      <p><strong>Done:</strong> core contract deployed and verified on Ethereum Mainnet; automatic carbon offset and community fund fees; self-funding staking rewards with halving; 2-of-2 multisig ownership; a self-healing circuit breaker; automated test suite and security scan.</p>
+      <p><strong>Next, before public trading:</strong> independent professional smart contract audit; legal/securities consultation for A.G.E. CO.; a Uniswap liquidity pool so AGE is actually buyable via MetaMask and other wallets.</p>
       <p><strong>Future, only if real usage justifies it:</strong> an Element Identity system (an on-chain engagement score, not a separate token); governance and community proposal rights; broader access beyond a standard smartphone wallet.</p>
     </div>
   </div>
@@ -539,8 +541,8 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
   <div class="wp-section">
     <h2 class="wp-h2">7. Risks &amp; Disclaimers</h2>
     <div class="wp-disclaimer">
-      <p style="margin-bottom:12px">This document is for informational purposes only and is not financial, legal, or investment advice. AGE Coin is currently a testnet project with no real-world monetary value.</p>
-      <p style="margin-bottom:12px">The smart contract has not yet undergone an independent professional security audit. While it has passed automated scanning and a 43-test automated suite, this does not guarantee the absence of vulnerabilities.</p>
+      <p style="margin-bottom:12px">This document is for informational purposes only and is not financial, legal, or investment advice. AGE Coin is deployed on Ethereum Mainnet, but no public trading market exists yet — no liquidity pool has been established on any exchange.</p>
+      <p style="margin-bottom:12px">The smart contract has not yet undergone an independent professional security audit. While it has passed automated scanning, a 65-test automated suite, and property-based fuzz testing, this does not guarantee the absence of vulnerabilities. Do not treat the absence of a professional audit lightly — this is a genuine, disclosed limitation, not a formality.</p>
       <p style="margin-bottom:0">A.G.E. CO. has not yet completed a legal or securities review of this token. Nothing in this document or the AGE Coin application should be interpreted as an offer to sell or a solicitation of an offer to buy any security.</p>
     </div>
   </div>
@@ -658,10 +660,10 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
 
 <script>
 // ============================================================
-// CONFIG — Sepolia testnet deployment
+// CONFIG — Ethereum Mainnet deployment
 // ============================================================
-const CONTRACT_ADDRESS = "0x9AE145086b43Fd0d7D0Eef3e53284457EA177eCa";
-const SEPOLIA_CHAIN_ID_HEX = "0xaa36a7"; // 11155111
+const CONTRACT_ADDRESS = "0x08b60a628F72586dB54a7CdE04D1BCd21a2fA21b";
+const MAINNET_CHAIN_ID_HEX = "0x1"; // 1
 const CONTRACT_ABI = [
   "function balanceOf(address account) view returns (uint256)",
   "function stakedBalance(address account) view returns (uint256)",
@@ -696,7 +698,7 @@ function hideWhitepaper(){
 }
 
 // ============================================================
-// WALLET CONNECT — real MetaMask + real Sepolia network check
+// WALLET CONNECT — real MetaMask + real Ethereum Mainnet network check
 // ============================================================
 async function connectWallet(){
   if(typeof window.ethereum === 'undefined'){
@@ -708,7 +710,7 @@ async function connectWallet(){
   try{
     provider = new ethers.BrowserProvider(window.ethereum);
     await provider.send('eth_requestAccounts', []);
-    await ensureSepoliaNetwork();
+    await ensureMainnetNetwork();
     signer = await provider.getSigner();
     userAddress = await signer.getAddress();
     contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
@@ -716,7 +718,7 @@ async function connectWallet(){
     document.getElementById('walletAddr').textContent = userAddress.slice(0,6) + '...' + userAddress.slice(-4);
     switchToDash();
     await refreshAllData();
-    toast('Wallet connected on Sepolia testnet.', 'ok');
+    toast('Wallet connected on Ethereum Mainnet.', 'ok');
   }catch(e){
     console.error(e);
     toast('Connection failed or rejected.', 'err');
@@ -725,30 +727,13 @@ async function connectWallet(){
   }
 }
 
-async function ensureSepoliaNetwork(){
+async function ensureMainnetNetwork(){
   const currentChainId = await window.ethereum.request({ method: 'eth_chainId' });
-  if(currentChainId === SEPOLIA_CHAIN_ID_HEX) return;
-  try{
-    await window.ethereum.request({
-      method: 'wallet_switchEthereumChain',
-      params: [{ chainId: SEPOLIA_CHAIN_ID_HEX }]
-    });
-  }catch(switchError){
-    if(switchError.code === 4902){
-      await window.ethereum.request({
-        method: 'wallet_addEthereumChain',
-        params: [{
-          chainId: SEPOLIA_CHAIN_ID_HEX,
-          chainName: 'Sepolia Test Network',
-          nativeCurrency: { name: 'Sepolia ETH', symbol: 'ETH', decimals: 18 },
-          rpcUrls: ['https://ethereum-sepolia-rpc.publicnode.com'],
-          blockExplorerUrls: ['https://sepolia.etherscan.io']
-        }]
-      });
-    }else{
-      throw switchError;
-    }
-  }
+  if(currentChainId === MAINNET_CHAIN_ID_HEX) return;
+  await window.ethereum.request({
+    method: 'wallet_switchEthereumChain',
+    params: [{ chainId: MAINNET_CHAIN_ID_HEX }]
+  });
 }
 
 if(typeof window.ethereum !== 'undefined'){

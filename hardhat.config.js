@@ -10,6 +10,12 @@ module.exports = {
         ? [vars.get("SEPOLIA_PRIVATE_KEY")]
         : [],
     },
+    mainnet: {
+      url: "https://ethereum-rpc.publicnode.com",
+      accounts: vars.has("SEPOLIA_PRIVATE_KEY")
+        ? [vars.get("SEPOLIA_PRIVATE_KEY")]
+        : [],
+    },
   },
   etherscan: {
     apiKey: vars.has("ETHERSCAN_API_KEY") ? vars.get("ETHERSCAN_API_KEY") : "",
