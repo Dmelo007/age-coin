@@ -8,7 +8,7 @@ A fixed-supply ERC-20 token with automatic impact fees, self-funding staking rew
 - **Circuit breaker:** watches transfer volume via a sliding time window and automatically restricts, then automatically recovers, without human intervention — unstaking and claiming rewards are never affected
 - **Ownership:** a 2-of-2 multisig (Safe), not a single private key
 
-Currently deployed and verified on the **Sepolia testnet** — see `dapp/index.html` for the live-connected interface, or open the whitepaper page from its footer for full details.
+Deployed and verified on **Ethereum Mainnet**: [`0x08b60a628F72586dB54a7CdE04D1BCd21a2fA21b`](https://etherscan.io/address/0x08b60a628F72586dB54a7CdE04D1BCd21a2fA21b#code). Live dapp: **app.alwaysgreatenergy.com** (or open `dapp/index.html` locally), whitepaper available from its footer link.
 
 ## Project layout
 
@@ -18,7 +18,8 @@ Currently deployed and verified on the **Sepolia testnet** — see `dapp/index.h
 - `contracts/echidna/` — property-based fuzz testing harness
 - `sui-contracts/` — a Move-language equivalent timelock for the Sui network
 - `test/` — the Hardhat test suite
-- `dapp/index.html` — the live dapp interface (wallet connect, staking, whitepaper)
+- `dapp/index.html` — the dapp source (wallet connect, staking, whitepaper)
+- `docs/index.html` — **a copy of `dapp/index.html`**, served by GitHub Pages at app.alwaysgreatenergy.com. Whenever `dapp/index.html` changes, copy it here too — these two files must stay in sync.
 - `deploy.js` — deployment script
 
 ## Commands
@@ -26,8 +27,8 @@ Currently deployed and verified on the **Sepolia testnet** — see `dapp/index.h
 ```shell
 npx hardhat compile
 npx hardhat test
-npx hardhat run deploy.js --network sepolia
-npx hardhat verify --network sepolia <address> <carbonWallet> <communityWallet>
+npx hardhat run deploy.js --network mainnet   # or --network sepolia for testnet
+npx hardhat verify --network mainnet <address> <carbonWallet> <communityWallet>
 ```
 
 Fuzz testing (requires Echidna installed separately):
