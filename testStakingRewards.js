@@ -1,6 +1,6 @@
 const hre = require("hardhat");
 
-const CONTRACT_ADDRESS = "0xfa3cf7D22CA5d08A1A5aee48381263e135b0663E";
+const CONTRACT_ADDRESS = "0x9AE145086b43Fd0d7D0Eef3e53284457EA177eCa";
 
 function fmt(x) {
   return hre.ethers.formatUnits(x, 18);
