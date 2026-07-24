@@ -404,7 +404,8 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
         </div>
         <div class="tok-box">
           <div class="tok-box-label">Current Token Distribution</div>
-          <p style="font-size:12px;color:var(--t2);line-height:1.7">100% of the fixed 10M supply is currently held by the founding wallet (now secured behind the 2-of-2 multisig above). No public sale, team vesting, or liquidity allocation exists yet — those are real future decisions, not yet made or built.</p>
+          <p style="font-size:12px;color:var(--t2);line-height:1.7">As of today: ~98.6% of the fixed 10M supply sits in the founding wallet (secured behind the 2-of-2 multisig above), ~0.9% has been provided as Uniswap trading liquidity, and small amounts have accrued to the carbon offset and community fund wallets through normal transfer fees.</p>
+          <p style="font-size:12px;color:var(--t2);line-height:1.7">Honest disclosure: <strong>no formal public-sale, team-vesting, or community-allocation plan has been finalized yet</strong> for the founding wallet's holdings. That concentration is a real, known limitation — not something to gloss over. Any future distribution commitments will be documented here, and where meaningful, backed by time-locked contracts rather than just a stated promise.</p>
         </div>
       </div>
     </div>
@@ -514,9 +515,12 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
         <tr><td>Legal/securities review of A.G.E. CO. (LLC)</td><td class="planned">Planned, not yet complete</td></tr>
         <tr><td>Ethereum Mainnet deployment</td><td class="live">Live</td></tr>
         <tr><td>Uniswap liquidity pool (buyable via wallets)</td><td class="live">Live, but still thin</td></tr>
+        <tr><td>LP tokens locked</td><td class="planned">Not yet — held directly by the founding wallet</td></tr>
+        <tr><td>Formal token distribution plan</td><td class="planned">Not yet finalized</td></tr>
       </table>
       <p>Contract ownership was moved from a single private key to a 2-of-2 multisig (Safe) — no single key can change contract configuration alone anymore. This was the top recommendation from our own internal security review and was implemented before any other planned upgrade.</p>
       <p>The circuit breaker watches the contract's own transfer volume using a sliding time window and automatically moves between three states: Green (normal operation), Yellow (caps individual transfer size, pauses new staking), and Red (pauses transfers and new staking entirely). It recovers on its own once volume normalizes — no human action required, and no external oracle involved. Unstaking and claiming already-earned rewards are never affected, in any mode; that guarantee has no exceptions.</p>
+      <p><strong>Token distribution, disclosed honestly:</strong> as of today, roughly 98.6% of the fixed 10M supply sits in the founding wallet, secured by the multisig above. ~0.9% has been provided as Uniswap trading liquidity, and small amounts have accrued to the carbon offset and community fund wallets through normal transfer fees. No formal public-sale, team-vesting, or community-allocation plan has been finalized yet, and the LP tokens for the Uniswap pool are not yet locked — both are real, known limitations, not hidden ones. Any future distribution commitments will be documented here, and where meaningful, backed by time-locked contracts rather than just a stated promise.</p>
     </div>
   </div>
 
