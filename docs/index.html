@@ -687,7 +687,8 @@ let provider, signer, contract, userAddress;
 // LANDING PAGE LIVE STATS (public on-chain data, no wallet needed)
 // ============================================================
 const PUBLIC_RPC_URL = "https://ethereum-rpc.publicnode.com";
-async function refreshLandingStats(){
+async function refreshLandingStats(retriesLeft){
+  if(retriesLeft === undefined) retriesLeft = 3;
   try{
     const readProvider = new ethers.JsonRpcProvider(PUBLIC_RPC_URL, undefined, { batchMaxCount: 1, staticNetwork: ethers.Network.from(1) });
     const readContract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, readProvider);
@@ -695,6 +696,10 @@ async function refreshLandingStats(){
     const fmt = (x) => Number(ethers.formatUnits(x, 18)).toLocaleString(undefined, { maximumFractionDigits: 4 });
     set('landingTotalStaked', fmt(staked));
   }catch(e){
+    if(retriesLeft > 0){
+      setTimeout(() => refreshLandingStats(retriesLeft - 1), 1500);
+      return;
+    }
     console.error('landing stats fetch failed', e);
   }
 }
