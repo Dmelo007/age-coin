@@ -723,6 +723,13 @@ function hideWhitepaper(){
 // ============================================================
 // WALLET CONNECT — real MetaMask + real Ethereum Mainnet network check
 // ============================================================
+function withTimeout(promise, ms, message){
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => setTimeout(() => reject(new Error(message || 'Timed out')), ms))
+  ]);
+}
+
 async function connectWallet(){
   if(typeof window.ethereum === 'undefined'){
     toast('MetaMask (or another Ethereum wallet) not detected. Please install one to continue.', 'err');
@@ -732,8 +739,8 @@ async function connectWallet(){
   btn.disabled = true;
   try{
     provider = new ethers.BrowserProvider(window.ethereum);
-    await provider.send('eth_requestAccounts', []);
-    await ensureMainnetNetwork();
+    await withTimeout(provider.send('eth_requestAccounts', []), 20000, 'WALLET_TIMEOUT');
+    await withTimeout(ensureMainnetNetwork(), 20000, 'NETWORK_SWITCH_TIMEOUT');
     signer = await provider.getSigner();
     userAddress = await signer.getAddress();
     contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
@@ -744,7 +751,12 @@ async function connectWallet(){
     toast('Wallet connected on Ethereum Mainnet.', 'ok');
   }catch(e){
     console.error(e);
-    toast('Connection failed or rejected.', 'err');
+    const msg = (e && e.message === 'NETWORK_SWITCH_TIMEOUT')
+      ? "This wallet couldn't switch to Ethereum Mainnet. AGE Coin lives on Ethereum, not Base — try connecting with MetaMask instead."
+      : (e && e.message === 'WALLET_TIMEOUT')
+      ? 'Wallet did not respond in time. Please try again.'
+      : 'Connection failed or was rejected. You can try again.';
+    toast(msg, 'err');
   }finally{
     btn.disabled = false;
   }
