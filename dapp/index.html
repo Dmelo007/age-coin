@@ -162,9 +162,9 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
 .rm-phase-2 .rm-phase-title{color:var(--blue)}
 .rm-phase-3 .rm-phase-title{color:var(--earth)}
 .rm-phase-sub{font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:var(--t3);margin-bottom:20px}
-.rm-list{list-style:none;display:flex;flex-direction:column;gap:8px}
-.rm-list li{font-size:15px;color:var(--t2);display:flex;align-items:flex-start;gap:10px;line-height:1.5}
-.rm-list li::before{content:'';width:4px;height:4px;border-radius:50%;flex-shrink:0;margin-top:7px}
+.rm-list{list-style:none;display:flex;flex-direction:column;gap:12px}
+.rm-list li{font-size:15px;color:var(--t2);position:relative;padding-left:16px;line-height:1.6}
+.rm-list li::before{content:'';position:absolute;left:0;top:8px;width:4px;height:4px;border-radius:50%}
 .rm-phase-1 .rm-list li::before{background:var(--gold)}
 .rm-phase-2 .rm-list li::before{background:var(--blue)}
 .rm-phase-3 .rm-list li::before{background:var(--earth)}
@@ -285,13 +285,17 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
 
 @media(max-width:900px){
   .lnav-links{display:none}
-  .philosophy{grid-template-columns:1fr}
+  .philosophy{grid-template-columns:1fr;padding:64px 24px;gap:48px}
   .overview,.eco-grid,.stake-layout{grid-template-columns:1fr}
   .sidebar{display:none}
   .main{margin-left:0;padding:24px}
   .stats-bar{grid-template-columns:repeat(2,1fr)}
   .stat-item:nth-child(5){grid-column:span 2}
   .tok-layout{grid-template-columns:1fr}
+  .ecosystem-section,.tokenomics-section,.roadmap-section{padding:64px 24px}
+  .rm-timeline{padding-left:22px}
+  .rm-dot{left:-26px}
+  .rm-phase{margin-bottom:48px}
 }
 </style>
 </head>
