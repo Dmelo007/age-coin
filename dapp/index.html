@@ -23,13 +23,13 @@
   --water:#22d3ee;
   --earth:#4ade80;
   --t1:#f5f0e8;
-  --t2:#8a7a60;
-  --t3:#3a3228;
+  --t2:#b0a186;
+  --t3:#8c8069;
   --line:rgba(201,169,110,0.15);
   --line2:rgba(201,169,110,0.08);
 }
 html{scroll-behavior:smooth}
-body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-serif;font-size:14px;line-height:1.6;overflow-x:hidden}
+body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden}
 
 .landing{display:block}
 .dashboard-app{display:none}
@@ -64,23 +64,23 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
 @keyframes coinbreathe{0%,100%{box-shadow:0 0 60px rgba(201,169,110,0.3),0 0 120px rgba(201,169,110,0.1),inset 0 2px 12px rgba(255,255,255,0.15),inset 0 -4px 8px rgba(0,0,0,0.4)}50%{box-shadow:0 0 100px rgba(201,169,110,0.45),0 0 200px rgba(201,169,110,0.18),inset 0 2px 12px rgba(255,255,255,0.15),inset 0 -4px 8px rgba(0,0,0,0.4)}}
 .coin-inner{text-align:center}
 .coin-text{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;letter-spacing:0.1em;color:rgba(30,18,6,0.9);line-height:1}
-.coin-sub{font-size:8px;letter-spacing:0.2em;color:rgba(30,18,6,0.5);margin-top:2px}
-.vert-text{position:absolute;font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--t3);writing-mode:vertical-rl}
+.coin-sub{font-size:10px;letter-spacing:0.2em;color:rgba(30,18,6,0.5);margin-top:2px}
+.vert-text{position:absolute;font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--t3);writing-mode:vertical-rl}
 .vert-left{left:24px;top:50%;transform:translateY(-50%) rotate(180deg)}
 .vert-right{right:24px;top:50%;transform:translateY(-50%)}
 .scroll-cue{display:flex;flex-direction:column;align-items:center;gap:12px;padding-bottom:48px}
-.scroll-cue span{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--t3)}
+.scroll-cue span{font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--t3)}
 .scroll-line{width:1px;height:48px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollpulse 2s ease-in-out infinite}
 @keyframes scrollpulse{0%,100%{opacity:0.3}50%{opacity:0.8}}
 
-.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stats-bar{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .stat-item{padding:32px 48px;border-right:1px solid var(--line2);text-align:center}
 .stat-item:last-child{border-right:none}
 .stat-n{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;color:var(--gold);display:block;line-height:1;margin-bottom:8px}
-.stat-l{font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--t3)}
+.stat-l{font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--t3)}
 
 .philosophy{padding:120px 48px;display:grid;grid-template-columns:1fr 1fr;gap:96px;align-items:center;border-bottom:1px solid var(--line2)}
-.phil-kicker{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--t2);margin-bottom:24px}
+.phil-kicker{font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--t2);margin-bottom:24px}
 .phil-title{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,5vw,64px);font-weight:300;line-height:1.05;letter-spacing:0.02em;color:var(--t1);margin-bottom:32px}
 .phil-title em{color:var(--gold);font-style:italic}
 .phil-body{font-size:15px;color:var(--t2);line-height:1.9;margin-bottom:40px;max-width:440px}
@@ -92,11 +92,11 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
 .pillar:hover::before{opacity:1}
 .pillar-n{font-family:'Cormorant Garamond',serif;font-size:11px;font-weight:300;letter-spacing:0.2em;color:var(--t3);margin-bottom:8px}
 .pillar-title{font-size:11px;font-weight:500;letter-spacing:0.08em;color:var(--gold);margin-bottom:8px;text-transform:uppercase}
-.pillar-body{font-size:13px;color:var(--t2);line-height:1.65}
+.pillar-body{font-size:15px;color:var(--t2);line-height:1.65}
 
 .ecosystem-section{padding:120px 48px;border-bottom:1px solid var(--line2)}
-.eco-kicker{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--t2);margin-bottom:24px;display:flex;align-items:center;gap:12px}
-.coming-soon-badge{font-size:8px;letter-spacing:0.15em;text-transform:uppercase;color:var(--t3);border:1px solid var(--line);padding:3px 10px;border-radius:2px}
+.eco-kicker{font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--t2);margin-bottom:24px;display:flex;align-items:center;gap:12px}
+.coming-soon-badge{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--t3);border:1px solid var(--line);padding:3px 10px;border-radius:2px}
 .eco-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,60px);font-weight:300;line-height:1.05;color:var(--t1);margin-bottom:16px;letter-spacing:0.02em}
 .eco-title em{color:var(--gold);font-style:italic}
 .eco-sub{font-size:15px;color:var(--t2);max-width:560px;line-height:1.9;margin-bottom:64px}
@@ -116,14 +116,14 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
 .eco-water .eco-el{color:var(--water)}
 .eco-earth .eco-el{color:var(--earth)}
 .eco-name{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--t1);margin-bottom:12px;letter-spacing:0.04em}
-.eco-desc{font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:20px}
+.eco-desc{font-size:15px;color:var(--t2);line-height:1.7;margin-bottom:20px}
 .eco-xp-list{list-style:none;display:flex;flex-direction:column;gap:8px}
 .eco-xp-list li{font-size:11px;color:var(--t3);display:flex;justify-content:space-between;border-bottom:1px solid var(--line2);padding-bottom:8px}
-.eco-xp-list li span{font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:300;color:var(--gold)}
+.eco-xp-list li span{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:300;color:var(--gold)}
 
 .tokenomics-section{padding:120px 48px;border-bottom:1px solid var(--line2)}
 .tok-layout{display:grid;grid-template-columns:1fr 1fr;gap:96px;align-items:start}
-.tok-kicker{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--t2);margin-bottom:24px}
+.tok-kicker{font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--t2);margin-bottom:24px}
 .tok-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,56px);font-weight:300;color:var(--t1);margin-bottom:24px;letter-spacing:0.02em;line-height:1.05}
 .tok-body{font-size:15px;color:var(--t2);line-height:1.9;margin-bottom:40px;max-width:480px}
 .tok-supply-big{font-family:'Cormorant Garamond',serif;font-size:72px;font-weight:300;color:var(--gold);line-height:1;margin-bottom:4px}
@@ -131,17 +131,17 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
 .tok-fees{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line2);margin-bottom:40px}
 .tok-fee{background:var(--black2);padding:24px}
 .tok-fee-n{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--gold);margin-bottom:4px}
-.tok-fee-l{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--t3);line-height:1.5}
+.tok-fee-l{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--t3);line-height:1.5}
 .tok-box{border:1px solid var(--line2);padding:32px;margin-top:1px}
-.tok-box-label{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--t3);margin-bottom:16px}
+.tok-box-label{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--t3);margin-bottom:16px}
 .tok-dist{display:flex;flex-direction:column;gap:1px}
 .tok-dist-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--line2)}
-.tok-dist-name{font-size:12px;color:var(--t2)}
+.tok-dist-name{font-size:14px;color:var(--t2)}
 .tok-dist-val{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:300;color:var(--gold)}
 .tok-dist-val.green{color:var(--earth)}
 
 .roadmap-section{padding:120px 48px;border-bottom:1px solid var(--line2)}
-.rm-kicker{font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--t2);margin-bottom:24px}
+.rm-kicker{font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--t2);margin-bottom:24px}
 .rm-title{font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,60px);font-weight:300;color:var(--t1);margin-bottom:64px;letter-spacing:0.02em}
 .rm-timeline{position:relative;padding-left:32px}
 .rm-timeline::before{content:'';position:absolute;left:0;top:8px;bottom:0;width:1px;background:linear-gradient(to bottom,var(--gold),rgba(201,169,110,0.1))}
@@ -152,7 +152,7 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
 .rm-phase-2 .rm-dot{border-color:var(--blue)}
 .rm-phase-3 .rm-dot{border-color:var(--earth)}
 .rm-meta{display:flex;align-items:center;gap:16px;margin-bottom:12px}
-.rm-tag{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;padding:4px 12px;border:1px solid}
+.rm-tag{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;padding:4px 12px;border:1px solid}
 .rm-phase-1 .rm-tag{color:var(--gold);border-color:rgba(201,169,110,0.3)}
 .rm-phase-2 .rm-tag{color:var(--blue);border-color:rgba(0,180,216,0.3)}
 .rm-phase-3 .rm-tag{color:var(--earth);border-color:rgba(74,222,128,0.3)}
@@ -163,7 +163,7 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
 .rm-phase-3 .rm-phase-title{color:var(--earth)}
 .rm-phase-sub{font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:var(--t3);margin-bottom:20px}
 .rm-list{list-style:none;display:flex;flex-direction:column;gap:8px}
-.rm-list li{font-size:13px;color:var(--t2);display:flex;align-items:flex-start;gap:10px;line-height:1.5}
+.rm-list li{font-size:15px;color:var(--t2);display:flex;align-items:flex-start;gap:10px;line-height:1.5}
 .rm-list li::before{content:'';width:4px;height:4px;border-radius:50%;flex-shrink:0;margin-top:7px}
 .rm-phase-1 .rm-list li::before{background:var(--gold)}
 .rm-phase-2 .rm-list li::before{background:var(--blue)}
@@ -172,9 +172,9 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
 
 .landing-footer{padding:40px 48px;border-top:1px solid var(--line2);display:flex;align-items:center;justify-content:space-between}
 .footer-logo{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;letter-spacing:0.12em;color:var(--gold)}
-.footer-tagline{font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:var(--t3)}
+.footer-tagline{font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:var(--t3)}
 .footer-links{display:flex;gap:32px}
-.footer-links a{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--t3);text-decoration:none;cursor:pointer;transition:color .15s}
+.footer-links a{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--t3);text-decoration:none;cursor:pointer;transition:color .15s}
 .footer-links a:hover{color:var(--gold)}
 
 /* ============ WHITEPAPER PAGE ============ */
@@ -191,16 +191,16 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
 .wp-body a{color:var(--gold)}
 .wp-body ul{padding-left:20px;margin-bottom:16px}
 .wp-body li{margin-bottom:8px}
-.wp-status-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:13px}
+.wp-status-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:15px}
 .wp-status-table td{padding:12px 0;border-bottom:1px solid var(--line2);color:var(--t2)}
 .wp-status-table td:last-child{text-align:right;font-family:'Cormorant Garamond',serif;font-size:15px}
 .wp-status-table .live{color:var(--earth)}
 .wp-status-table .planned{color:var(--t3)}
-.wp-disclaimer{background:var(--black3);border-left:2px solid var(--gold);padding:24px 28px;font-size:13px;color:var(--t2);line-height:1.8}
+.wp-disclaimer{background:var(--black3);border-left:2px solid var(--gold);padding:24px 28px;font-size:15px;color:var(--t2);line-height:1.8}
 
 .app-nav{position:sticky;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:64px;border-bottom:1px solid var(--line2);background:rgba(8,8,8,0.97);backdrop-filter:blur(12px)}
 .app-logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;letter-spacing:0.12em;color:var(--gold)}
-.app-wallet{display:flex;align-items:center;gap:12px;font-size:12px;color:var(--t2)}
+.app-wallet{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--t2)}
 .wallet-dot{width:6px;height:6px;border-radius:50%;background:var(--earth);box-shadow:0 0 6px var(--earth);animation:dotpulse 2s ease-in-out infinite}
 @keyframes dotpulse{0%,100%{opacity:1}50%{opacity:0.4}}
 .wallet-addr{font-weight:500;letter-spacing:0.04em;color:var(--t1)}
@@ -208,7 +208,7 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
 .app-layout{display:flex;min-height:100vh}
 .sidebar{width:200px;flex-shrink:0;border-right:1px solid var(--line2);padding:40px 0;position:sticky;top:64px;align-self:flex-start;height:calc(100vh - 64px);overflow-y:auto;background:var(--black)}
 .sidebar-section{margin-bottom:40px;padding:0 24px}
-.sidebar-label{font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--t3);margin-bottom:16px;display:block}
+.sidebar-label{font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--t3);margin-bottom:16px;display:block}
 .sidebar-link{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--t3);text-decoration:none;padding:10px 0;cursor:pointer;transition:color .15s;border:none;background:none;width:100%;text-align:left}
 .sidebar-link:hover{color:var(--t2)}
 .sidebar-link.active{color:var(--gold)}
@@ -219,14 +219,14 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
 
 .main{flex:1;margin-left:200px;padding:48px;min-height:calc(100vh - 96px)}
 
-.section-kicker{font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--t3);margin-bottom:12px;display:block}
+.section-kicker{font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--t3);margin-bottom:12px;display:block}
 .section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,3vw,42px);font-weight:300;color:var(--t1);margin-bottom:32px;letter-spacing:0.02em}
 .grid-line{display:grid;gap:1px;background:var(--line2);margin-bottom:1px}
 .g2{grid-template-columns:1fr 1fr}
 .g3{grid-template-columns:1fr 1fr 1fr}
 .cell{background:var(--black);padding:36px}
 .cell:hover{background:var(--black2)}
-.cell-label{font-size:9px;letter-spacing:0.25em;text-transform:uppercase;color:var(--t3);margin-bottom:16px;display:block}
+.cell-label{font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--t3);margin-bottom:16px;display:block}
 .cell-big{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:var(--gold);line-height:1;margin-bottom:6px}
 .cell-sub{font-size:11px;color:var(--t3);letter-spacing:0.04em}
 .gold-btn{display:block;width:100%;background:var(--gold);color:var(--black);border:none;padding:14px;font-size:10px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;margin-top:16px;transition:background .15s;font-family:'Space Grotesk',sans-serif;text-align:center}
@@ -246,7 +246,7 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
 
 .stake-card{background:var(--black);padding:36px}
 .stake-big{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:300;color:var(--gold);line-height:1;margin-top:16px;margin-bottom:4px}
-.stake-big-label{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--t3);display:block;margin-bottom:24px}
+.stake-big-label{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--t3);display:block;margin-bottom:24px}
 .stake-row-info{display:flex;justify-content:space-between;align-items:baseline;padding:14px 0;border-top:1px solid var(--line2);border-bottom:1px solid var(--line2);margin-bottom:24px}
 .sri-label{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--t3)}
 .sri-val{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:var(--earth)}
@@ -258,7 +258,7 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
 
 .coming-soon-panel{background:var(--black3);border:1px dashed var(--line);padding:64px 48px;text-align:center}
 .csp-title{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--gold);margin-bottom:12px}
-.csp-body{font-size:13px;color:var(--t2);max-width:480px;margin:0 auto;line-height:1.7}
+.csp-body{font-size:15px;color:var(--t2);max-width:480px;margin:0 auto;line-height:1.7}
 
 .stake-layout{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line2);margin-bottom:1px}
 .stake-form-cell{background:var(--black);padding:40px}
@@ -270,11 +270,11 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
 .sir-val.green{color:var(--earth)}
 .sir-val.gold{color:var(--gold)}
 .halving-box{background:var(--black3);border:1px solid var(--line2);padding:28px;margin-top:20px}
-.hb-label{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--t3);margin-bottom:8px}
+.hb-label{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--t3);margin-bottom:8px}
 .hb-val{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--gold);margin-bottom:4px}
-.hb-note{font-size:11px;color:var(--t2);font-style:italic;font-family:'Cormorant Garamond',serif;font-size:13px}
+.hb-note{font-size:11px;color:var(--t2);font-style:italic;font-family:'Cormorant Garamond',serif;font-size:15px}
 
-.toast{position:fixed;bottom:32px;right:32px;background:var(--black3);border-left:2px solid var(--gold);padding:16px 20px;font-size:12px;z-index:999;transform:translateY(80px);opacity:0;transition:all .25s ease;max-width:300px;letter-spacing:0.02em}
+.toast{position:fixed;bottom:32px;right:32px;background:var(--black3);border-left:2px solid var(--gold);padding:16px 20px;font-size:14px;z-index:999;transform:translateY(80px);opacity:0;transition:all .25s ease;max-width:300px;letter-spacing:0.02em}
 .toast.on{transform:translateY(0);opacity:1}
 .toast.ok{border-color:var(--earth);color:var(--earth)}
 .toast.err{border-color:var(--fire);color:var(--fire)}
@@ -287,6 +287,7 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
   .sidebar{display:none}
   .main{margin-left:0;padding:24px}
   .stats-bar{grid-template-columns:repeat(2,1fr)}
+  .stat-item:nth-child(5){grid-column:span 2}
   .tok-layout{grid-template-columns:1fr}
 }
 </style>
@@ -337,6 +338,7 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
     <div class="stat-item"><span class="stat-n">1.7%</span><span class="stat-l">Total Transfer Fee</span></div>
     <div class="stat-item"><span class="stat-n">2yr</span><span class="stat-l">Reward Halving</span></div>
     <div class="stat-item"><span class="stat-n" id="landingTotalStaked">—</span><span class="stat-l">AGE Currently Staked</span></div>
+    <div class="stat-item"><span class="stat-n" id="landingLockedAge">—</span><span class="stat-l">AGE Locked Until 2031 &nbsp;<a href="https://etherscan.io/address/0x60c2fb788efda80752efc004773dfaac01cae2dc" target="_blank" style="color:var(--gold);text-decoration:underline">Verify</a></span></div>
   </div>
 
   <section class="philosophy" id="philosophy">
@@ -381,11 +383,11 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
         </div>
         <div class="tok-box">
           <div class="tok-box-label">Staking Rewards — Real, Deployed, Tested</div>
-          <p style="font-size:13px;color:var(--t2);line-height:1.7">Rewards are funded entirely by the 0.2% fee above — never minted — and the payout rate halves automatically every 2 years. The contract can never pay out more than it has actually collected in fees, so it's mathematically incapable of running dry.</p>
+          <p style="font-size:15px;color:var(--t2);line-height:1.7">Rewards are funded entirely by the 0.2% fee above — never minted — and the payout rate halves automatically every 2 years. The contract can never pay out more than it has actually collected in fees, so it's mathematically incapable of running dry.</p>
         </div>
         <div class="tok-box">
           <div class="tok-box-label">Self-Healing Circuit Breaker — Real, Deployed, Tested</div>
-          <p style="font-size:13px;color:var(--t2);line-height:1.7">The contract watches its own transfer volume and automatically moves through three states — Green (normal), Yellow (caps transfer size, pauses new staking), and Red (pauses transfers and new staking entirely) — then recovers on its own once volume normalizes, with no human action required. Unstaking and claiming rewards are never affected, in any mode. No oracle, no external dependency — purely on-chain.</p>
+          <p style="font-size:15px;color:var(--t2);line-height:1.7">The contract watches its own transfer volume and automatically moves through three states — Green (normal), Yellow (caps transfer size, pauses new staking), and Red (pauses transfers and new staking entirely) — then recovers on its own once volume normalizes, with no human action required. Unstaking and claiming rewards are never affected, in any mode. No oracle, no external dependency — purely on-chain.</p>
         </div>
       </div>
       <div>
@@ -404,8 +406,8 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
         </div>
         <div class="tok-box">
           <div class="tok-box-label">Current Token Distribution</div>
-          <p style="font-size:12px;color:var(--t2);line-height:1.7">As of today: ~98.6% of the fixed 10M supply sits in the founding wallet (secured behind the 2-of-2 multisig above), ~0.9% has been provided as Uniswap trading liquidity, and small amounts have accrued to the carbon offset and community fund wallets through normal transfer fees.</p>
-          <p style="font-size:12px;color:var(--t2);line-height:1.7">Honest disclosure: <strong>no formal public-sale, team-vesting, or community-allocation plan has been finalized yet</strong> for the founding wallet's holdings. That concentration is a real, known limitation — not something to gloss over. Any future distribution commitments will be documented here, and where meaningful, backed by time-locked contracts rather than just a stated promise.</p>
+          <p style="font-size:14px;color:var(--t2);line-height:1.7">As of today: ~98.6% of the fixed 10M supply sits in the founding wallet (secured behind the 2-of-2 multisig above), ~0.9% has been provided as Uniswap trading liquidity, and small amounts have accrued to the carbon offset and community fund wallets through normal transfer fees.</p>
+          <p style="font-size:14px;color:var(--t2);line-height:1.7">Honest disclosure: <strong>no formal public-sale, team-vesting, or community-allocation plan has been finalized yet</strong> for the founding wallet's holdings. That concentration is a real, known limitation — not something to gloss over. Any future distribution commitments will be documented here, and where meaningful, backed by time-locked contracts rather than just a stated promise.</p>
         </div>
       </div>
     </div>
@@ -635,7 +637,7 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
               <div class="input-hint">Available: <span id="stakeAvailTab">—</span> AGE</div>
             </div>
             <button class="gold-btn" onclick="doStake('stakeInputTab')">Stake</button>
-            <div style="margin-top:16px;margin-bottom:8px;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--t3)">Unstake</div>
+            <div style="margin-top:16px;margin-bottom:8px;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--t3)">Unstake</div>
             <input class="age-input" type="number" id="unstakeInput" placeholder="Amount to unstake"/>
             <div class="input-hint">Staked: <span id="unstakeAvail">—</span> AGE — withdrawable any time, no lock-up</div>
             <button class="ghost-btn" onclick="doUnstake()">Unstake</button>
@@ -687,14 +689,20 @@ let provider, signer, contract, userAddress;
 // LANDING PAGE LIVE STATS (public on-chain data, no wallet needed)
 // ============================================================
 const PUBLIC_RPC_URL = "https://ethereum-rpc.publicnode.com";
+const TIMELOCK_2031_ADDRESS = "0x60c2fb788efda80752efc004773dfaac01cae2dc";
 async function refreshLandingStats(retriesLeft){
   if(retriesLeft === undefined) retriesLeft = 3;
   try{
     const readProvider = new ethers.JsonRpcProvider(PUBLIC_RPC_URL, undefined, { batchMaxCount: 1, staticNetwork: ethers.Network.from(1) });
     const readContract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, readProvider);
-    const staked = await readContract.totalStaked();
+    const erc20 = new ethers.Contract(CONTRACT_ADDRESS, ["function balanceOf(address) view returns (uint256)"], readProvider);
+    const [staked, locked] = await Promise.all([
+      readContract.totalStaked(),
+      erc20.balanceOf(TIMELOCK_2031_ADDRESS)
+    ]);
     const fmt = (x) => Number(ethers.formatUnits(x, 18)).toLocaleString(undefined, { maximumFractionDigits: 4 });
     set('landingTotalStaked', fmt(staked));
+    set('landingLockedAge', fmt(locked));
   }catch(e){
     if(retriesLeft > 0){
       setTimeout(() => refreshLandingStats(retriesLeft - 1), 1500);
