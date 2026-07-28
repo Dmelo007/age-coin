@@ -239,6 +239,9 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
 .age-input:focus{border-bottom-color:var(--gold)}
 .age-input::placeholder{color:var(--t3)}
 .input-hint{font-size:10px;color:var(--t3);margin-top:6px;letter-spacing:0.04em}
+.pct-row{display:flex;gap:8px;margin-top:10px}
+.pct-btn{flex:1;background:none;border:1px solid var(--line);color:var(--t2);padding:8px 4px;font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all .15s;font-family:'Space Grotesk',sans-serif;border-radius:2px}
+.pct-btn:hover{border-color:var(--gold);color:var(--gold);background:var(--gold4)}
 
 .overview{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-bottom:1px;background:var(--line2)}
 .ov-card{background:var(--black);padding:36px}
@@ -619,6 +622,11 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
         <div class="stake-card" style="margin-top:1px">
           <span class="cell-label">Quick Actions</span>
           <input class="age-input" type="number" id="stakeInputDash" placeholder="Amount of AGE"/>
+          <div class="pct-row">
+            <button class="pct-btn" onclick="setStakePct('stakeInputDash',10)">10%</button>
+            <button class="pct-btn" onclick="setStakePct('stakeInputDash',50)">50%</button>
+            <button class="pct-btn" onclick="setStakePct('stakeInputDash',100)">Max</button>
+          </div>
           <div class="input-hint">Available: <span id="stakeAvail">—</span> AGE</div>
           <button class="gold-btn" onclick="doStake('stakeInputDash')">Stake</button>
           <button class="ghost-btn" onclick="doClaim()">Claim Pending Rewards</button>
@@ -634,11 +642,21 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
             <span class="cell-label">Stake AGE Coin</span>
             <div style="margin-top:16px;margin-bottom:24px">
               <input class="age-input" type="number" id="stakeInputTab" placeholder="Amount to stake"/>
+              <div class="pct-row">
+                <button class="pct-btn" onclick="setStakePct('stakeInputTab',10)">10%</button>
+                <button class="pct-btn" onclick="setStakePct('stakeInputTab',50)">50%</button>
+                <button class="pct-btn" onclick="setStakePct('stakeInputTab',100)">Max</button>
+              </div>
               <div class="input-hint">Available: <span id="stakeAvailTab">—</span> AGE</div>
             </div>
             <button class="gold-btn" onclick="doStake('stakeInputTab')">Stake</button>
             <div style="margin-top:16px;margin-bottom:8px;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--t3)">Unstake</div>
             <input class="age-input" type="number" id="unstakeInput" placeholder="Amount to unstake"/>
+            <div class="pct-row">
+              <button class="pct-btn" onclick="setUnstakePct(10)">10%</button>
+              <button class="pct-btn" onclick="setUnstakePct(50)">50%</button>
+              <button class="pct-btn" onclick="setUnstakePct(100)">Max</button>
+            </div>
             <div class="input-hint">Staked: <span id="unstakeAvail">—</span> AGE — withdrawable any time, no lock-up</div>
             <button class="ghost-btn" onclick="doUnstake()">Unstake</button>
           </div>
@@ -684,6 +702,7 @@ const CONTRACT_ABI = [
 ];
 
 let provider, signer, contract, userAddress;
+let currentAgeBalance = 0n, currentStakedBalance = 0n;
 
 // ============================================================
 // LANDING PAGE LIVE STATS (public on-chain data, no wallet needed)
@@ -827,6 +846,8 @@ async function refreshAllData(){
 
     const fmt = (x) => Number(ethers.formatUnits(x, 18)).toLocaleString(undefined, { maximumFractionDigits: 4 });
     const ratePerDay = (rate * 86400n);
+    currentAgeBalance = balance;
+    currentStakedBalance = staked;
 
     set('ageVal', fmt(balance));
     set('stakeVal', fmt(staked));
@@ -846,6 +867,16 @@ async function refreshAllData(){
 }
 
 function set(id, val){ const el = document.getElementById(id); if(el) el.textContent = val; }
+
+function setStakePct(inputId, pct){
+  const amount = (currentAgeBalance * BigInt(pct)) / 100n;
+  document.getElementById(inputId).value = ethers.formatUnits(amount, 18);
+}
+
+function setUnstakePct(pct){
+  const amount = (currentStakedBalance * BigInt(pct)) / 100n;
+  document.getElementById('unstakeInput').value = ethers.formatUnits(amount, 18);
+}
 
 // ============================================================
 // REAL CONTRACT WRITES
