@@ -418,8 +418,8 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
         </div>
         <div class="tok-box">
           <div class="tok-box-label">Current Token Distribution</div>
-          <p style="font-size:14px;color:var(--t2);line-height:1.7">As of today: ~98.6% of the fixed 10M supply sits in the founding wallet (secured behind the 2-of-2 multisig above), ~0.9% has been provided as Uniswap trading liquidity, and small amounts have accrued to the carbon offset and community fund wallets through normal transfer fees.</p>
-          <p style="font-size:14px;color:var(--t2);line-height:1.7">Honest disclosure: <strong>no formal public-sale, team-vesting, or community-allocation plan has been finalized yet</strong> for the founding wallet's holdings. That concentration is a real, known limitation — not something to gloss over. Any future distribution commitments will be documented here, and where meaningful, backed by time-locked contracts rather than just a stated promise.</p>
+          <p style="font-size:14px;color:var(--t2);line-height:1.7">As of today: roughly 67% of the fixed 10M supply remains liquid in the founding wallet, <strong>~31% (3,047,300 AGE) is locked in a code-enforced timelock contract until January 1, 2031</strong> — no override exists, not even for us — and the rest has been provided as Uniswap trading liquidity or accrued to the carbon offset and community fund wallets through normal transfer fees.</p>
+          <p style="font-size:14px;color:var(--t2);line-height:1.7">Honest disclosure: <strong>no formal public-sale, team-vesting, or community-allocation plan has been finalized yet</strong> for the founding wallet's remaining liquid holdings. That's a real, known limitation — not something to gloss over. The 2031 lock is a first real step, not the whole answer. Any future distribution commitments will be documented here, and where meaningful, backed by time-locked contracts rather than just a stated promise.</p>
         </div>
       </div>
     </div>
@@ -486,7 +486,7 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
 <div class="whitepaper-page" id="whitepaperPage">
   <span class="wp-back" onclick="hideWhitepaper()">← Back to AGE Coin</span>
   <h1 class="wp-title">AGE Coin — Whitepaper</h1>
-  <p class="wp-meta">Version 1.1 — Ethereum Mainnet Deployment — Last updated 2026-07-22</p>
+  <p class="wp-meta">Version 1.2 — Ethereum Mainnet Deployment — Last updated 2026-08-03</p>
 
   <div class="wp-section">
     <h2 class="wp-h2">1. Mission</h2>
@@ -530,18 +530,21 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
         <tr><td>Ethereum Mainnet deployment</td><td class="live">Live</td></tr>
         <tr><td>Uniswap liquidity pool (buyable via wallets)</td><td class="live">Live, but still thin</td></tr>
         <tr><td>LP tokens locked</td><td class="planned">Not yet — held directly by the founding wallet</td></tr>
+        <tr><td>Founding wallet timelock</td><td class="live">Live — 3,047,300 AGE locked until Jan 1, 2031, no override</td></tr>
         <tr><td>Formal token distribution plan</td><td class="planned">Not yet finalized</td></tr>
+        <tr><td>Security incident response</td><td class="live">One battle test complete — survived a key-exposure incident, zero funds lost</td></tr>
       </table>
       <p>Contract ownership was moved from a single private key to a 2-of-2 multisig (Safe) — no single key can change contract configuration alone anymore. This was the top recommendation from our own internal security review and was implemented before any other planned upgrade.</p>
       <p>The circuit breaker watches the contract's own transfer volume using a sliding time window and automatically moves between three states: Green (normal operation), Yellow (caps individual transfer size, pauses new staking), and Red (pauses transfers and new staking entirely). It recovers on its own once volume normalizes — no human action required, and no external oracle involved. Unstaking and claiming already-earned rewards are never affected, in any mode; that guarantee has no exceptions.</p>
-      <p><strong>Token distribution, disclosed honestly:</strong> as of today, roughly 98.6% of the fixed 10M supply sits in the founding wallet, secured by the multisig above. ~0.9% has been provided as Uniswap trading liquidity, and small amounts have accrued to the carbon offset and community fund wallets through normal transfer fees. No formal public-sale, team-vesting, or community-allocation plan has been finalized yet, and the LP tokens for the Uniswap pool are not yet locked — both are real, known limitations, not hidden ones. Any future distribution commitments will be documented here, and where meaningful, backed by time-locked contracts rather than just a stated promise.</p>
+      <p><strong>Token distribution, disclosed honestly:</strong> as of today, roughly 67% of the fixed 10M supply remains liquid in the founding wallet. <strong>~31% (3,047,300 AGE) is locked in a standalone, code-enforced timelock contract until January 1, 2031</strong> — the contract has no owner and no override, so this cannot be released early by anyone, including us. The remainder has been provided as Uniswap trading liquidity or has accrued to the carbon offset and community fund wallets through normal transfer fees. No formal public-sale, team-vesting, or community-allocation plan has been finalized yet for the remaining liquid holdings, and the LP tokens for the Uniswap pool are not yet locked — both are real, known limitations, not hidden ones. Any future distribution commitments will be documented here, and where meaningful, backed by time-locked contracts rather than just a stated promise.</p>
+      <p><strong>Security incident response:</strong> in July 2026, a deployer wallet's private key was accidentally exposed in plain text locally. It was rotated to a new wallet before any funds were touched, with every step verified on-chain. Zero funds were lost. We're disclosing this plainly rather than omitting it — one real battle test, survived cleanly.</p>
     </div>
   </div>
 
   <div class="wp-section">
     <h2 class="wp-h2">5. Current Deployment</h2>
     <div class="wp-body">
-      <p>AGE Coin is deployed on <strong>Ethereum Mainnet</strong> — this is real, not a test. The full 10,000,000 AGE supply exists and is held under the multisig-controlled deployer wallet.</p>
+      <p>AGE Coin is deployed on <strong>Ethereum Mainnet</strong> — this is real, not a test. The full 10,000,000 AGE supply exists; ~31% of it is locked in a code-enforced timelock until 2031, and the remainder sits in the founding wallet or has entered public circulation via Uniswap and normal transfer fees.</p>
       <p>A Uniswap v2 liquidity pool is now live (AGE/ETH), meaning AGE is genuinely buyable through MetaMask and other wallets today. Important nuance to stay honest about: this pool is still small, so even modest trades move the price significantly — this is an early, thin market, not a mature one. Depth will grow over time as more liquidity is added.</p>
       <p>Also still true: this contract has not yet undergone an independent professional security audit, and A.G.E. CO. has not yet completed a legal/securities review. Both remain open items — see the roadmap below.</p>
       <p>Contract source code is verified and publicly readable on Etherscan. The GitHub repository contains the full contract source, test suite, and deployment scripts.</p>
@@ -560,7 +563,7 @@ body{background:var(--black);color:var(--t1);font-family:'Space Grotesk',sans-se
   <div class="wp-section">
     <h2 class="wp-h2">7. Risks &amp; Disclaimers</h2>
     <div class="wp-disclaimer">
-      <p style="margin-bottom:12px">This document is for informational purposes only and is not financial, legal, or investment advice. AGE Coin is deployed on Ethereum Mainnet, but no public trading market exists yet — no liquidity pool has been established on any exchange.</p>
+      <p style="margin-bottom:12px">This document is for informational purposes only and is not financial, legal, or investment advice. AGE Coin is deployed on Ethereum Mainnet with a real, live Uniswap liquidity pool — but that pool is still small and thin, meaning even modest trades can move the price significantly. This is an early, immature market, not a mature one.</p>
       <p style="margin-bottom:12px">The smart contract has not yet undergone an independent professional security audit. While it has passed automated scanning, a 65-test automated suite, and property-based fuzz testing, this does not guarantee the absence of vulnerabilities. Do not treat the absence of a professional audit lightly — this is a genuine, disclosed limitation, not a formality.</p>
       <p style="margin-bottom:0">A.G.E. CO. has not yet completed a legal or securities review of this token. Nothing in this document or the AGE Coin application should be interpreted as an offer to sell or a solicitation of an offer to buy any security.</p>
     </div>
